@@ -5,7 +5,7 @@ How the session ended: $ending
 
 Files in your working folder:
 - transcript.md: each step's number, P's spoken thought, the action taken, whether the screen changed, and the screenshot file for that step.
-- shots/NNNN.png: the screenshot P saw AFTER each step (step 0 is the first screen). Use the Read tool to view any screenshot you need. Look at the ones around every hesitation, wrong tap, backtrack or complaint.
+- shots/NNNN.png: the screenshot P saw AFTER each step (step 0 is the first screen). Long sessions include the first two, the last eight and an even spread of the rest; the transcript still covers every step. Use the Read tool to view any screenshot you need. Look at the ones around every hesitation, wrong tap, backtrack or complaint.
 - gaps.md (may be empty): taps that landed on parts of a PROTOTYPE that weren't built yet.
 
 The target fidelity is: $fidelity. If it is "prototype", the product is a partial clickable mock-up. A tap on a control that plausibly WOULD work in the real product but isn't wired up (listed in gaps.md, or an unchanged screen after tapping something real) is a PROTOTYPE GAP, not a usability problem. Mark it is_prototype_gap=true. If P tapped something that is not a control, or misread the screen, that IS a usability finding. Sample data in a prototype that doesn't match P's situation (wrong names, pre-filled items, fixed amounts) is also a prototype gap, not a usability problem.

@@ -121,3 +121,25 @@ async def test_merge_keeps_unassigned_findings(tmp_path, monkeypatch):
     issues = await analyze.merge(study, out)
     assert len(issues) == 2
     assert issues[0]["severity"] == 3 and issues[0]["frequency"] == 1.0
+
+
+def test_annotator_shots_are_capped_but_keep_the_start_and_the_ending(tmp_path):
+    from pilot_ux.analyze import annotator_shots
+    shots = tmp_path / "shots"
+    shots.mkdir()
+    for i in range(60):
+        (shots / f"{i:04d}.png").write_bytes(b"x")
+    got = annotator_shots(tmp_path, cap=20)
+    assert len(got) == 20
+    names = sorted(got)
+    assert names[0] == "shots/0000.png" and names[-1] == "shots/0059.png"
+    assert all(f"shots/{i:04d}.png" in got for i in range(52, 60))  # the ending is where judgments live
+    assert all(got[n] == tmp_path / n for n in names)
+
+
+def test_annotator_shots_send_everything_when_under_the_cap(tmp_path):
+    from pilot_ux.analyze import annotator_shots
+    (tmp_path / "shots").mkdir()
+    for i in range(5):
+        (tmp_path / "shots" / f"{i:04d}.png").write_bytes(b"x")
+    assert sorted(annotator_shots(tmp_path, cap=20)) == [f"shots/{i:04d}.png" for i in range(5)]

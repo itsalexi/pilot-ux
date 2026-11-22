@@ -12,15 +12,15 @@ references:
       - {family-names: Yao, given-names: Bingsheng}
       - {family-names: Gu, given-names: Hansu}
       - {family-names: Huang, given-names: Jing}
-      - {family-names: Wang, given-names: Jessie}
-      - {family-names: Li, given-names: Laurence}
+      - {family-names: Wang, given-names: Zheshen Jessie}
+      - {family-names: Li, given-names: Yang}
       - {family-names: Gesi, given-names: Jiri}
       - {family-names: He, given-names: Qi}
       - {family-names: Li, given-names: Toby Jia-Jun}
       - {family-names: Wang, given-names: Dakuo}
     year: 2025
     conference: {name: "CHI EA '25"}
-    identifiers: [{type: other, value: "arXiv:2502.12561"}]
+    identifiers: [{type: other, value: "arXiv:2502.12561"}, {type: doi, value: "10.1145/3706599.3719729"}]
   - type: article
     title: "UXCascade: Scalable Usability Testing with Simulated User Agents"
     authors:
@@ -29,7 +29,8 @@ references:
       - {family-names: Dogan, given-names: Mustafa Doga}
       - {family-names: Chan, given-names: Gromit Yeuk-Yin}
     year: 2026
-    identifiers: [{type: other, value: "arXiv:2601.15777"}]
+    conference: {name: "UIST '26"}
+    identifiers: [{type: other, value: "arXiv:2601.15777"}, {type: doi, value: "10.1145/3830398.3830609"}]
   - type: article
     title: "LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings"
     authors: [{family-names: Maier, given-names: Benjamin F.}, {family-names: Aslak, given-names: Ulf}, {family-names: Fiaschi, given-names: Luca}, {family-names: Rismal, given-names: Nina}, {family-names: Fletcher, given-names: Kemble}, {family-names: Luhmann, given-names: Christian C.}, {family-names: Dow, given-names: Robbie}, {family-names: Pappas, given-names: Kli}, {family-names: Wiecki, given-names: Thomas V.}]

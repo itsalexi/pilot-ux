@@ -143,7 +143,7 @@ async def annotate(study: Study, out: Path, log=print) -> None:
         with tempfile.TemporaryDirectory() as d:
             (Path(d) / "transcript.md").write_text(transcript_md(rd))
             (Path(d) / "gaps.md").write_text(gaps_md(rd))
-            files = {"transcript.md": Path(d) / "transcript.md", "gaps.md": Path(d) / "gaps.md", "shots": rd / "shots"}
+            files = {"transcript.md": Path(d) / "transcript.md", "gaps.md": Path(d) / "gaps.md", **annotator_shots(rd)}
             prompt = render("annotator", goal=spec.task.goal, ending=ending_text(outcome).replace("You", "P"),
                             fidelity=study.target.fidelity)
             async with sem:
@@ -153,6 +153,22 @@ async def annotate(study: Study, out: Path, log=print) -> None:
         log(f"  annotated {spec.id}: {len(f['findings'])} findings")
 
     await asyncio.gather(*(one(s, rd) for s, rd in run_dirs(study, out)))
+
+
+ANNOTATOR_SHOTS = 24
+
+
+def annotator_shots(rd: Path, cap: int = ANNOTATOR_SHOTS) -> dict[str, Path]:
+    """Screens sent to the annotator: all of them up to `cap`; past that, the first two, the last eight
+    (where testers stall and quit) and an even spread of the middle. Names keep their step numbers."""
+    shots = sorted((rd / "shots").glob("*.png"))
+    if len(shots) > cap:
+        head, tail = shots[:2], shots[-8:]
+        middle = shots[2:-8]
+        k = cap - len(head) - len(tail)
+        picked = [middle[round(i * (len(middle) - 1) / max(k - 1, 1))] for i in range(k)] if k > 0 else []
+        shots = head + sorted(set(picked)) + tail
+    return {f"shots/{s.name}": s for s in shots}
 
 
 def collect_findings(study: Study, out: Path) -> list[dict]:

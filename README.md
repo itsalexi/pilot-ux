@@ -149,7 +149,7 @@ Testers and analysis run on the model backend you choose. A remote embedder rece
 
 - Maier, Aslak, Fiaschi, Rismal, Fletcher, Luhmann, Dow, Pappas and Wiecki. *LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings.* 2025. [arXiv:2510.08338](https://arxiv.org/abs/2510.08338)
 - Lu et al. *UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design.* CHI EA 2025. [arXiv:2502.12561](https://arxiv.org/abs/2502.12561)
-- Holter, Koh, Dogan and Chan. *UXCascade: Scalable Usability Testing with Simulated User Agents.* 2026. [arXiv:2601.15777](https://arxiv.org/abs/2601.15777)
+- Holter, Koh, Dogan and Chan. *UXCascade: Scalable Usability Testing with Simulated User Agents.* UIST 2026. [arXiv:2601.15777](https://arxiv.org/abs/2601.15777)
 - Brooke. *SUS: A "quick and dirty" usability scale.* 1996. Nielsen, severity ratings, 1994.
 
 To cite Pilot, see [`CITATION.cff`](CITATION.cff).

@@ -2,7 +2,7 @@
 
 This experimental protocol compares behavioral personas with fresh generic agents. Only studies that include the generic control contribute to the comparison.
 
-For precedent, UXCascade mapped model findings to known issues on a seeded website. Agents covered nine of 17 under the authors’ matching rules. Our comparison asks how much of that sort of coverage comes from giving the agents different behavioral instructions. [UXCascade study, section 6.2](https://www.steffenholter.com/projects/uxcascade/uist26-135.pdf)
+For precedent, UXCascade mapped model findings to known issues on a seeded website. Agents covered nine of 17 under the authors’ permissive matching rules. Our comparison asks how much of that sort of coverage comes from giving the agents different behavioral instructions. [UXCascade study, section 6.2](https://www.steffenholter.com/projects/uxcascade/uist26-135.pdf)
 
 ## The comparison
 
