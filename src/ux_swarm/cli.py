@@ -129,6 +129,8 @@ def cmd_analyze(a):
         await analyze.verify(s, _out(s))
         await analyze.annotate(s, _out(s))
         await analyze.merge(s, _out(s))
+        await translate(s, _out(s))
+    from .translate import translate
     asyncio.run(go())
 
 
@@ -136,7 +138,9 @@ def cmd_report(a):
     from .report import build
     s = _study(a)
     md, html = build(s, _out(s))
-    print(f"report: {md}\n        {html}")
+    from .report_app import build as build_app
+    app, plan = build_app(_out(s), study=s)
+    print(f"report: {app}\n        {plan}\n        {md}\n        {html}")
 
 
 def cmd_replay(a):
@@ -258,7 +262,7 @@ def main(argv=None):
     p.set_defaults(f=cmd_drain)
     study_cmd("interview", cmd_interview, "post-task interviews + SSR scoring")
     study_cmd("analyze", cmd_analyze, "verify successes, annotate sessions, merge issues")
-    study_cmd("report", cmd_report, "write report.md and report.html")
+    study_cmd("report", cmd_report, "write pilot.html, fix-plan.md, report.md and report.html")
     p = sub.add_parser("replay", help="export recorded sessions as a self-contained HTML player")
     p.add_argument("study", type=Path)
     p.add_argument("--output", type=Path, required=True, help="destination HTML file")

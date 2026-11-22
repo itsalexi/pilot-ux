@@ -54,6 +54,7 @@ class Task(BaseModel):
     id: str
     goal: str
     success_criteria: list[str]
+    label: str = ""  # short name for reports, e.g. "Pay a friend back"; defaults to the id
     start: str | None = None  # optional start screen id / path (setup-side only)
     context: str = ""  # situation in the persona's world, e.g. "you're at dinner with 5 friends"
     verify_after: Literal["reopen"] | None = None
@@ -64,6 +65,8 @@ class Task(BaseModel):
         # Existing frozen studies predate this optional verification rule.
         if self.verify_after is None:
             data.pop("verify_after", None)
+        if not self.label:
+            data.pop("label", None)
         return data
 
 
