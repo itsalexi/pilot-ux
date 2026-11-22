@@ -13,6 +13,7 @@
   <a href="#quickstart">Quickstart</a> ·
   <a href="#what-you-get">What you get</a> ·
   <a href="#the-loop">The loop</a> ·
+  <a href="#how-well-it-works">How well it works</a> ·
   <a href="#honest-limits">Honest limits</a>
 </p>
 
@@ -99,6 +100,19 @@ Hati is a bill-splitting app. Its redesign went through this loop once.
 | Set up a trip | 18 of 18 | **TBD** |
 
 > **Placeholder.** The retest is still running. These numbers land before launch.
+
+## How well it works
+
+Measured on Hati, one app, with small samples. Read these as early evidence, not a benchmark.
+
+| Check | Result |
+| --- | --- |
+| Known problems found, against an earlier human QA walkthrough of the old app | **4 of 13** |
+| Reported problems that weren't on screen | **0 of 23** |
+| Same outcome when a tester repeats a task | **54 of 54** pairs |
+| Overlap of the problems found across repeats | **0.85** (Jaccard) |
+
+An AI reviewer checked every reported problem against its screenshots. No independent human adjudicated them.
 
 ## How it works
 
