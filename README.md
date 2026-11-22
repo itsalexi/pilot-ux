@@ -91,15 +91,15 @@ pilot recheck runs/baseline runs/baseline-fixed
 
 Hati is a bill-splitting app. Its redesign went through this loop once.
 
-<!-- PLACEHOLDER: Hati fix-and-retest numbers. Replace every TBD before launch. -->
+A fresh Claude Code agent got only `fix-plan.md` and the report. It fixed the prototype, and the same testers ran the same tasks again.
 
 | Task | Before | After |
 | --- | --- | --- |
-| Split a dinner | 0 of 18 | **TBD** |
-| Pay a friend back | 0 of 18 | **TBD** |
-| Set up a trip | 18 of 18 | **TBD** |
+| Split a dinner | 0 of 18 | **13 of 18** |
+| Pay a friend back | 0 of 18 | **18 of 18** |
+| Set up a trip | 18 of 18 | 18 of 18 |
 
-> **Placeholder.** The retest is still running. These numbers land before launch.
+Both runs were judged by the same verifier. The 5 dinner sessions that still stopped point at the one issue the agent left for later: testers couldn't trace a senior discount back to the items behind it. GCash itself was simulated inside the prototype.
 
 ## How well it works
 
