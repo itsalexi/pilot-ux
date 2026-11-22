@@ -30,6 +30,7 @@ def test_fix_plan_carries_everything_an_agent_needs(tmp_path):
     assert "Suggested fix: f" in major
     assert str(out / "runs/detail-checker__t__r1/shots/0000.png") in major  # exact screen to look at
     assert "--only t" in major and "pilot recheck" in major  # how to retest
+    assert "point its target at the fixed build" in major  # a fix made in a copy must be what gets retested
     gaps = text[text.index("Not product problems"):]
     assert "Unbuilt button" in gaps and text.count("Unbuilt button") == 1  # gaps are listed, never queued as fixes
 

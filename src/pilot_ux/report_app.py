@@ -227,7 +227,8 @@ def fix_prompt(d: dict, i: dict) -> str:
     study_file = d.get("studyFile") or "your study file"
     out = d["outDir"].rstrip("/")
     only = " ".join(t["id"] for t in tasks)
-    lines += [f"Retest: copy {study_file} to fixed.yaml and set out_dir to {out}-fixed, then run",
+    lines += [f"Retest: copy {study_file} to fixed.yaml, set out_dir to {out}-fixed, and if your fix lives in a copy"
+              " of the app or prototype, point its target at the fixed build. Then run",
               f"  pilot all fixed.yaml --only {only}",
               f"  pilot recheck {out} {out}-fixed"]
     return "\n".join(lines)
