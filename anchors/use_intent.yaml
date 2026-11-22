@@ -1,0 +1,7 @@
+construct: use_intent
+question: "Would you actually use this the next time this situation comes up? Why or why not?"
+sets:
+  - ["Definitely not, I'd never use it.", "Probably not.", "Maybe, I'm not sure.", "Probably yes.", "Definitely, I'd use it for sure."]
+  - ["I'd delete it right away.", "I'd go back to how I usually do it.", "I might try it again once.", "I'd likely keep using it.", "It would become my go-to."]
+  - ["There's no way I'd use this.", "I doubt I'd use this.", "I could see myself using this sometimes.", "I'd use this most times.", "I'd use this every single time."]
+  - ["Not likely at all.", "Unlikely.", "About fifty-fifty.", "Likely.", "Extremely likely."]

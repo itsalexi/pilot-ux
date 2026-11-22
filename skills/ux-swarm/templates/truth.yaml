@@ -1,0 +1,7 @@
+# Known issues for `ux-swarm eval`. in_scope: false = not reachable by the study's tasks or not visible on screen.
+issues:
+  - {id: K1, text: "Discount field accepts 1010% with no cap", in_scope: true}
+  - {id: K2, text: "Rounding remainder always lands on the first person", in_scope: true}
+# Issues already fixed in this version. If the tool reports one, that counts as a stale (wrong) finding.
+stale:
+  - {id: S1, text: "Item sheet only had a numeric keypad, could not type item names"}

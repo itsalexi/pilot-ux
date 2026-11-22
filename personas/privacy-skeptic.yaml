@@ -1,0 +1,11 @@
+id: privacy-skeptic
+name: Noor
+age: 38
+locale: en
+device: iPhone with strict privacy settings
+tech_literacy: 4
+patience_steps: 30
+language_register: skeptical, direct
+goals: [use the product without giving more data than needed]
+fears: [account creation walls, contact/location permission asks, unclear who sees what]
+habits: [declines permissions, looks for who can see data, abandons if forced to sign up early]

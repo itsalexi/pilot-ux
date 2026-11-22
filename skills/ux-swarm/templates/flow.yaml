@@ -1,0 +1,23 @@
+# Stitched prototype: static screens + hotspots. `ux-swarm stitch` writes this for linked HTML; hand-write it for images.
+# rect: [x, y, w, h] in CSS px on the `width`-wide image (y from the top of the full image; tall images scroll).
+# to: screen id to show on tap.  input: any name -> draws a text box the persona can type into.
+# A hotspot with neither (or no hotspot at all) = tap does nothing and is logged as a prototype gap.
+# Rules: give EVERY visible control on an included screen a hotspot (not just the happy path).
+# Controls that lead nowhere you have a screen for: leave them out — taps there are logged as prototype gaps.
+# Screen ids and labels are never shown to personas; use whatever names help you.
+start: home
+width: 390
+screens:
+  home:
+    image: screens/home.png          # 390 px wide (taller = scrollable)
+    hotspots:
+      - {rect: [24, 700, 342, 56], to: new_split, label: "primary New button"}
+      - {rect: [300, 60, 60, 44], to: settings, label: "gear icon"}
+  new_split:
+    image: screens/new_split.png
+    hotspots:
+      - {rect: [24, 160, 342, 48], input: title, label: "title field"}   # renders a text box
+      - {rect: [24, 760, 342, 56], to: home, label: "Create"}
+  settings:
+    image: screens/settings.png
+    hotspots: []

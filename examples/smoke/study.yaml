@@ -1,0 +1,21 @@
+# Tiny end-to-end check. The example app has deliberate problems:
+# an unlabeled "+" button, a greyed-out-looking Save, and a jargon "Interval (d)" field.
+name: smoke-sprout
+product_hint: "an app for remembering to water your plants"
+target: {kind: static, folder: site, url: index.html}
+tasks:
+  - id: add-plant
+    context: "You just bought a basil plant and keep forgetting to water things."
+    goal: "Get the app to remind you to water your new basil every 3 days."
+    success_criteria:
+      - "a confirmation that a plant was added is shown"
+personas:
+  - ref: default/older-non-techy
+  - ref: default/impatient-power-user
+runs: 1
+backend: codex
+codex_model: gpt-6.2-astra
+model: claude-haiku-5-5
+embedder: fake
+concurrency: 2
+out_dir: ../../runs/smoke

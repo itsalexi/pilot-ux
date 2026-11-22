@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+title: "ux-swarm: synthetic-user usability testing for Claude Code"
+message: "If you use ux-swarm, please also cite the methods it builds on (see references)."
+license: MIT
+authors:
+  - name: "ux-swarm contributors"
+references:
+  - type: article
+    title: "UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design"
+    authors:
+      - {family-names: Lu, given-names: Yuxuan}
+      - {family-names: Yao, given-names: Bingsheng}
+      - {family-names: Gu, given-names: Hansu}
+      - {family-names: Huang, given-names: Jing}
+      - {family-names: Wang, given-names: Jessie}
+      - {family-names: Li, given-names: Laurence}
+      - {family-names: Gesi, given-names: Jiri}
+      - {family-names: He, given-names: Qi}
+      - {family-names: Li, given-names: Toby Jia-Jun}
+      - {family-names: Wang, given-names: Dakuo}
+    year: 2025
+    conference: {name: "CHI EA '25"}
+    identifiers: [{type: other, value: "arXiv:2502.12561"}]
+  - type: article
+    title: "UXCascade: Scalable Usability Testing with Simulated User Agents"
+    authors:
+      - {family-names: Holter, given-names: Steffen}
+      - {family-names: Koh, given-names: Eunyee}
+      - {family-names: Dogan, given-names: Mustafa Doga}
+      - {family-names: Chan, given-names: Gromit Yeuk-Yin}
+    year: 2026
+    identifiers: [{type: other, value: "arXiv:2601.15777"}]
+  - type: article
+    title: "LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings"
+    authors: [{family-names: Maier, given-names: Benjamin F.}, {family-names: Aslak, given-names: Ulf}, {family-names: Fiaschi, given-names: Luca}, {family-names: Rismal, given-names: Nina}, {family-names: Fletcher, given-names: Kemble}, {family-names: Luhmann, given-names: Christian C.}, {family-names: Dow, given-names: Robbie}, {family-names: Pappas, given-names: Kli}, {family-names: Wiecki, given-names: Thomas V.}]
+    year: 2025
+    identifiers: [{type: other, value: "arXiv:2510.08338"}]

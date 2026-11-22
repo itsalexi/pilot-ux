@@ -1,0 +1,7 @@
+{
+  "name": "ux-swarm",
+  "version": "0.1.0",
+  "description": "Usability-test any app, prototype or idea with a swarm of blind, screenshot-only synthetic users; SSR attitude scoring; severity x frequency report.",
+  "license": "MIT",
+  "keywords": ["usability", "ux-research", "synthetic-users", "personas", "think-aloud", "ssr"]
+}

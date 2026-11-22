@@ -1,0 +1,7 @@
+# Templated per SUS item; {s} is the item statement in lowercase without the final period.
+construct: sus_agreement
+sets:
+  - ["I strongly disagree that {s}.", "I disagree that {s}.", "I neither agree nor disagree that {s}.", "I agree that {s}.", "I strongly agree that {s}."]
+  - ["It's completely untrue that {s}.", "It's mostly untrue that {s}.", "It's partly true that {s}.", "It's mostly true that {s}.", "It's completely true that {s}."]
+  - ["No, not at all; the opposite is true.", "Not really.", "Somewhat, sort of.", "Yes, mostly.", "Yes, absolutely, {s}."]
+  - ["I'd never say {s}.", "I wouldn't really say {s}.", "I'm in the middle on whether {s}.", "I'd say {s}.", "I'd definitely say {s}."]

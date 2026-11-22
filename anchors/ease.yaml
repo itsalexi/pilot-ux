@@ -1,0 +1,8 @@
+construct: ease
+question: "How easy or hard was it to do what you came to do?"
+sets:
+  - ["It was impossible, I couldn't do it at all.", "It was hard and frustrating.", "It was okay, a bit of effort but I got there.", "It was easy enough.", "It was effortless, super easy."]
+  - ["I got completely stuck.", "I struggled a lot.", "Some parts were easy, some were confusing.", "Mostly smooth, only small hiccups.", "Smooth from start to finish."]
+  - ["Very difficult.", "Difficult.", "Neither easy nor difficult.", "Easy.", "Very easy."]
+  - ["I had no idea what to do.", "I had to guess a lot.", "I figured it out after a while.", "It was pretty obvious what to do.", "I knew exactly what to do every step of the way."]
+  - ["I gave up because it was too confusing.", "I almost gave up.", "It took longer than I expected.", "It was quick.", "It took no time at all."]

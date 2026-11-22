@@ -1,0 +1,7 @@
+{
+  "name": "ux-swarm",
+  "owner": {"name": "ux-swarm contributors"},
+  "plugins": [
+    {"name": "ux-swarm", "source": "./", "description": "Synthetic-user UX testing with blind persona agents."}
+  ]
+}

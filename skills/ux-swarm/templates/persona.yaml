@@ -1,0 +1,16 @@
+# The sample study loads this fictional participant from the adjacent YAML file.
+id: careful-regular
+name: Robin
+age: 32
+locale: en-US
+device: Android phone
+tech_literacy: 3
+patience_steps: 22
+language_register: casual, concise English
+goals:
+  - Finish a routine errand during a break.
+fears:
+  - Placing the same order twice.
+habits:
+  - Reads the summary before confirming.
+  - Returns to a familiar screen when unsure what to do next.

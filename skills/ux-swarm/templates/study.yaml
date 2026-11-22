@@ -1,0 +1,23 @@
+# ux-swarm study. Paths are relative to this file.
+name: my-app-checkout
+product_hint: "an app for ordering food"   # one neutral line personas are told; never feature names
+target:
+  kind: url            # url | proto (stitched screens) | static (folder of linked HTML) | ios
+  url: http://localhost:3000
+  viewport: [390, 844] # CSS px; phones by default
+  mobile: true
+tasks:
+  - id: reorder
+    context: "It's Friday night and you want the same thing you ordered last week."
+    goal: "Get last week's order again, delivered to your place."   # user's words, never UI labels
+    success_criteria:   # observable on screen, used by the blind verifier
+      - "a confirmation screen shows the order is placed"
+personas:
+  - ref: default/impatient-power-user
+  - ref: default/older-non-techy
+  - file: persona.yaml
+runs: 3
+model: claude-opus-5-5      # pinned for every role unless overridden below
+models: {}                  # e.g. {annotator: claude-opus-5-5, persona: claude-sonnet-5-5}
+embedder: openai:text-embedding-3-small   # or local:all-MiniLM-L6-v2, voyage:voyage-3, fake
+concurrency: 4

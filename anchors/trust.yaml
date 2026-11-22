@@ -1,0 +1,7 @@
+construct: trust
+question: "How much do you trust this app with your money and your friends' details?"
+sets:
+  - ["I don't trust it at all.", "I'm suspicious of it.", "I'm unsure whether to trust it.", "I mostly trust it.", "I completely trust it."]
+  - ["It feels like a scam.", "Something about it feels off.", "It seems okay but I'd be careful.", "It feels legit.", "It feels totally safe and reliable."]
+  - ["I would never put my money or friends' info in it.", "I'd be really hesitant to use it with money.", "I'd use it for small amounts only.", "I'd use it for normal amounts without worrying much.", "I'd use it for anything without a second thought."]
+  - ["Very untrustworthy.", "Untrustworthy.", "Neither trustworthy nor untrustworthy.", "Trustworthy.", "Very trustworthy."]

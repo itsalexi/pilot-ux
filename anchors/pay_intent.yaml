@@ -1,0 +1,7 @@
+construct: pay_intent
+question: "Would you pay for an app like this? Why or why not?"
+sets:
+  - ["I would definitely not pay for this.", "I probably wouldn't pay for it.", "I might pay if the price was right.", "I'd probably pay for it.", "I'd definitely pay for this."]
+  - ["Paying for this is a joke.", "It's not worth money to me.", "Maybe a small one-time amount.", "It's worth a small subscription.", "It's easily worth paying for."]
+  - ["Not a chance.", "Unlikely.", "Maybe.", "Likely.", "Absolutely."]
+  - ["I'd only use it if it's free, and maybe not even then.", "Only if it stays free.", "I'd pay for a few features I really need.", "I'd pay if my friends used it too.", "I'd pay without hesitating."]
