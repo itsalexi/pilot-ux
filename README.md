@@ -1,107 +1,105 @@
-# ux-swarm
+<p align="center"><img src="assets/pilot-mark.svg" alt="Pilot" width="96"></p>
 
-Give the skill an app and a goal a person should be able to accomplish. It prepares the tasks, runs blind synthetic participants, and delivers a complete HTML report. For an improvement request on an editable app, it follows a finding back to the screen, patches the source, and reruns the same task on the changed build. You can steer the study or reprioritize a fix as it runs.
+# Pilot
 
-- **Point it at anything:** a URL, a repo, a folder of HTML pages, design artboards or screenshots (stitched into a clickable prototype), an iOS Simulator app, or a written UX idea. The Claude Code skill works out how to make it testable.
-- **Blind participants.** Each synthetic user runs in an isolated Claude or Codex process. Its product inputs are screenshots. It can look, tap, type, scroll, go back, give up, or finish. On web targets it can also close the tab and reopen the app. Its recorded comments and screenshots are available from individual findings.
-- **Blind analysis.** A verifier checks every claimed success against the final screens, without seeing the claim. An annotator rates each session's problems on a 0–4 severity scale. A merger counts frequency across personas. Prototype dead ends are separated from real confusion.
-- **Attitudes as distributions.** In-character interview answers (ease, trust, would use, would pay, the 10 SUS items, "what would make you close the app?") are scored with **Semantic Similarity Rating** into 1–5 distributions, next to the naive 1–5 numbers for comparison.
-- **Validity numbers in every report:** a leak canary, verifier overturns, run-to-run agreement (Jaccard, Fleiss κ), and pinned model IDs. `ux-swarm eval` measures recall and false-positive rate against a known-issue list.
+We created Pilot to test any UX like real first-time users, so that you can fix it with your coding agent before shipping.
 
-## Try the skill from this checkout
+Give Pilot your app and a goal a new user should be able to reach. It sends testers who have never seen your product. Each one sees only screenshots, thinks aloud, and gives up when they would. You get a report of where they got stuck, and a fix plan your coding agent can work through.
 
-From the repository root, load the skill for a Claude Code session.
+## Quickstart
+
+Install the plugin in Claude Code.
 
 ```
-claude --plugin-dir .
+/plugin marketplace add itsalexi/pilot-ux
+/plugin install pilot@pilot
 ```
 
-For example, ask *“Can someone sign up and invite a teammate? Test my local app. Fix the biggest problem you can reproduce and run the same task again.”* You can supply an exact audience or task. Otherwise the setup agent drafts the goals and selects behavioral personas, then freezes both for the measured runs.
+Then ask for a test in plain words.
 
-You need `uv`, an authenticated CLI for the selected participant backend, and Google Chrome or Playwright Chromium for web targets. For SSR embeddings, set `OPENAI_API_KEY` and install the `[openai]` extra, or configure `embedder: local:all-MiniLM-L6-v2` with the `[local]` extra.
+```
+Use Pilot to test whether a new user can sign up and invite a teammate on http://localhost:3000.
+```
 
-### CLI without the skill
+Pilot drafts the tasks and picks a few contrasting testers, runs them, and writes the results to the study's output folder. You can name the audience and tasks yourself, or let it draft them from your app.
 
-Run these commands from the repository root. `uv run` uses the implementation in this checkout.
+Pilot can test a URL, a repo, a folder of HTML pages, design artboards or screenshots stitched into a clickable prototype, an iOS Simulator app, or a written idea.
+
+## What you get
+
+**`pilot.html`** is the interactive report. It ranks every problem by how bad it is and how many testers hit it. Click any problem to see the exact screens, taps and words of the testers who ran into it. The file works offline, so you can send it to anyone.
+
+**`fix-plan.md`** is the same findings written for your coding agent. Each problem is a complete brief: what went wrong, where, a suggested fix, what counts as fixed, and the command to retest it. Hand it to Claude Code or Codex and ask it to work through the list.
+
+## The loop
+
+1. **Find.** Run Pilot on the current build. Keep that run as your baseline.
+2. **Fix.** Give `fix-plan.md` to your coding agent and let it fix the top problem.
+3. **Retest.** Run the same tasks on the changed build with fresh testers, then compare the two runs.
 
 ```bash
-uv run ux-swarm run examples/smoke/study.yaml --dry-run
-uv run ux-swarm all examples/smoke/study.yaml
+pilot all fixed.yaml --only signup
+pilot recheck runs/baseline runs/baseline-fixed
 ```
 
-`examples/smoke/` is a plant-watering app with deliberate usability problems. Its two sessions use the Codex backend and test embeddings. Open `runs/smoke/report.html` for outcomes, ranked findings, suggested changes, interview answers, and study limitations. Click a cited step to see the actual screen, action, and comment. The HTML file contains its recordings and can be opened offline.
-
-To start your own study, use `uv run ux-swarm init my-study`. For a repair, preserve the baseline and use a fresh output directory for the changed build. After the rerun, `ux-swarm recheck BEFORE_DIR AFTER_DIR --witness witness.yaml` adds the reviewed comparison to the changed report. The [fix and retest guide](skills/ux-swarm/references/fix-and-retest.md) describes the evidence format.
-
-During `run` or `all`, use `ux-swarm drain RUN_DIR` to finish the participants already in progress and hold the queue. To continue, run `ux-swarm drain RUN_DIR --clear` and repeat the original study command. Completed sessions are reused. If you change the goal or audience, create a separate study output so the original evidence stays attributable.
-
-### Measure what personas add
-
-The public Sprout example supports a four-session pilot. Two fresh agents receive the same neutral card. Two more receive different behavioral habits. Each starts with the same task, model and patience allowance. Freeze the order and inspect the plan before starting the model calls.
-
-```bash
-uv run ux-swarm benchmark plan examples/smoke/study.yaml --out runs/sprout-panel --seed 20261122
-uv run ux-swarm benchmark run examples/smoke/study.yaml --out runs/sprout-panel --seed 20261122
-uv run ux-swarm benchmark export runs/sprout-panel runs/sprout-review
-```
-
-Give the reviewer only `runs/sprout-review/`. They inspect each claim's screenshots and fill in the decisions in `review.csv`, assigning the same issue ID to equivalent claims. Then run `uv run ux-swarm benchmark score runs/sprout-panel runs/sprout-review`. The score identifies supported issues shared by both groups and issues observed in just one. The [benchmark protocol](docs/persona-benchmark.md) describes the held-out comparison and proposed release criteria.
-
-### Export a replay for a demo
-
-The HTML report already includes session playback. To make a separate presentation file from the same study, run the export from the checkout.
-
-```bash
-uv run ux-swarm replay examples/smoke/study.yaml --output runs/smoke/replay.html
-```
-
-Choose a session, play or scrub through its actions, and compare the screen before a tap with the result. Each caption is the synthetic participant’s recorded think-aloud. To curate a demo, pass `--session` followed by the run IDs in presentation order. Use `--start-step 2` to open on recorded step 2 (the third action) of the first session. The HTML contains the selected screenshots and captions and works offline.
+`recheck` pairs the sessions from both runs and shows whether the problem came back. The [fix and retest guide](skills/pilot/references/fix-and-retest.md) explains how to record the evidence.
 
 ## How it works
 
+Each tester runs in its own Claude or Codex process, in an empty folder, with only a device to drive. It can look, tap, type, scroll, go back, give up, or finish. It never sees your code, your notes, or the expected path.
+
+After the sessions, separate agents check the results. A verifier looks at each tester's final screens and decides whether the task really succeeded. An annotator rates each problem from 0 to 4. A merger counts how many testers hit the same problem.
+
+Each tester also answers a short interview in character about ease, trust, and whether they would use or pay for the product. Pilot scores those answers with Semantic Similarity Rating (SSR), which turns free text into a 1 to 5 distribution instead of a single number.
+
+Every report includes checks on itself: whether a tester seemed to know the product already, how often the verifier overturned a claimed success, how much two runs agree, and the exact model IDs used.
+
+## Honest limits
+
+- **Synthetic testers are more patient and literal than people.** They read every word and rarely quit. Use Pilot to find and fix problems before you test with about 5 real people, not instead of it.
+- **They see only screenshots.** Small text can be misread. The report flags suspected misreads for each problem.
+- **A failure is a strong signal. A pass is weak evidence.** If a tester gets stuck, a real person probably will too. If every tester succeeds, real people still might not.
+- **Personas change how testers behave, not who they are.** A persona that writes in Taglish tests your copy in that register. It does not stand in for real people from that culture.
+- **SSR was validated on purchase intent.** The ease, trust and SUS scores use the same method but have not been checked against real people.
+- **Each session costs model calls.** Run with `--dry-run` first to see how many sessions a study will start.
+
+## Setup
+
+- [uv](https://docs.astral.sh/uv/)
+- A Claude Code or Codex login, for the testers and the analysis
+- Google Chrome or Playwright Chromium, for web apps
+- For SSR scoring, either `OPENAI_API_KEY` with the `[openai]` extra, or a local embedder such as `embedder: local:all-MiniLM-L6-v2` with the `[local]` extra
+
+To try Pilot from a checkout without installing the plugin:
+
+```bash
+claude --plugin-dir .
 ```
- your input ──► resolve target (skill, full context) ──► study.yaml (+ flow.yaml for stitched screens)
-                    │
- personas × tasks × runs ──► isolated Claude or Codex + device MCP (Playwright / iOS AXe)
-                    │           steps.jsonl (think-aloud) · shots/ · outcome.json · gaps.jsonl
-                    ▼
-     interview (in character) ──► SSR ──► Likert pmfs, SUS distribution
-     verifier (final screens only) ──► verified / not
-     annotator (anonymous "P") ──► findings 0–4 ──► merger ──► issues × frequency
-                    ▼
-     report.md + self-contained report.html with step evidence
-                    ▼
-     for an improvement goal: patch target source → fresh blind rerun → reviewed comparison
+
+Or use the command line directly. The example is a plant-watering app with planted usability problems.
+
+```bash
+uv run pilot run examples/smoke/study.yaml --dry-run
+uv run pilot all examples/smoke/study.yaml
 ```
 
-Each participant starts in an empty temporary directory with only the device MCP server. A separate check reviews its first recorded comment for prior knowledge of the product.
+Open `runs/smoke/pilot.html` when it finishes. Start your own study with `uv run pilot init my-study`.
 
-## Limitations
+Environment variables use the `PILOT_` prefix, for example `PILOT_STORAGE_STATE` for a signed-in browser session. The older `UX_SWARM_` names still work.
 
-- **Synthetic users are not users.** Use this to triage and to decide what to test with about 5 real people. Don't use it to skip that step.
-- **Agents are too competent and too polite.** They read everything, rarely quit and over-report intent to buy. A failure is a strong signal; a pass is weak evidence.
-- **Personas add believability, not accuracy.** Published comparisons found persona agents' clicks differed from real users' in about half of tasks.
-- **Cultural and language personas** (for example Taglish) test your copy against that register. They do not model real people from that culture.
-- **Emotion, trust and social context** (asking friends for money, a noisy restaurant) are weakly simulated.
-- **SSR** was validated for consumer purchase intent. The ease, trust and SUS anchors here use the same method but have not been validated against humans. Results depend on the anchors and the embedding model.
-- **Screenshot vision can misread small text.** Annotators flag suspected misreads, and the report shows the share for each issue.
-- **Cost:** each session is a multi-turn `claude -p` run with images. Check `--dry-run` first.
+## Privacy
 
-## Privacy and keys
-
-The runner uses the configured model backend for screenshot-based sessions and analysis. A remote embedding provider receives interview text when selected. The portable report and replay contain app screenshots and participant comments. Run folders, storage states and environment files are excluded by the repository's ignore rules.
+Testers and analysis run on the model backend you choose. If you pick a remote embedder, it receives the interview answers. Reports contain screenshots of your app and the testers' comments, so treat them like any other screenshot. Run folders, browser sign-in files and `.env` files are ignored by git.
 
 ## Citations
 
-The workflow draws on these methods.
+- **Semantic Similarity Rating.** Maier, Aslak, Fiaschi, Rismal, Fletcher, Luhmann, Dow, Pappas and Wiecki. *LLMs Reproduce Human Purchase Intent via Semantic Similarity Elicitation of Likert Ratings*, 2025. [arXiv:2510.08338](https://arxiv.org/abs/2510.08338)
+- **UXAgent.** Lu et al. *An LLM Agent-Based Usability Testing Framework for Web Design*, CHI EA 2025. [arXiv:2502.12561](https://arxiv.org/abs/2502.12561)
+- **UXCascade.** Holter, Koh, Dogan and Chan. *Scalable Usability Testing with Simulated User Agents*, 2026. [arXiv:2601.15777](https://arxiv.org/abs/2601.15777)
+- **SUS.** Brooke, *SUS: A "quick and dirty" usability scale*, 1996. **Severity scale.** Nielsen, 1994.
 
-- **UXAgent.** Lu et al. describe using simulated participants and post-session interviews to pilot usability studies. [CHI EA 2025 paper](https://arxiv.org/abs/2502.12561)
-- **UXCascade.** Holter, Koh, Dogan and Chan study how simulated users can identify usability issues. [UXCascade paper](https://arxiv.org/abs/2601.15777)
-- **Semantic Similarity Rating.** Maier et al. map free-text answers to distributions over Likert ratings and evaluate the method on purchase intent. [SSR paper](https://arxiv.org/abs/2510.08338)
-- **SUS:** Brooke, *SUS: A "quick and dirty" usability scale*, 1996. **Severity scale:** Nielsen, 1994.
-
-See `CITATION.cff`.
+To cite Pilot, see [`CITATION.cff`](CITATION.cff).
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).

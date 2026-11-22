@@ -1,4 +1,4 @@
-# Known issues for `ux-swarm eval`. in_scope: false = not reachable by the study's tasks or not visible on screen.
+# Known issues for `pilot eval`. in_scope: false = not reachable by the study's tasks or not visible on screen.
 issues:
   - {id: K1, text: "Discount field accepts 1010% with no cap", in_scope: true}
   - {id: K2, text: "Rounding remainder always lands on the first person", in_scope: true}

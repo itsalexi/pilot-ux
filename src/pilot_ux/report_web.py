@@ -347,7 +347,7 @@ def render(study: Study, out: Path, d: dict) -> str:
             content.append(f'<section class="more" id="{key}"><details><summary>{heading}{quantity}</summary>'
                            f'<div class="more-body">{body}</div></details></section>')
     menu_script = Path(__file__).with_name("report-navigation.js").read_text(encoding="utf-8")
-    header = (f'<header class="mast"><div><b>UX Swarm</b><span>Study report</span></div>'
+    header = (f'<header class="mast"><div><b>Pilot</b><span>Study report</span></div>'
               f'<details id="contents"><summary>Contents</summary><nav aria-label="Report sections">{nav}</nav></details></header>')
     return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" '
             f'content="width=device-width, initial-scale=1"><title>{title} · Usability study</title>'

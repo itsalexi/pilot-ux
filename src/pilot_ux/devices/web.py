@@ -7,6 +7,7 @@ from typing import Literal
 
 from playwright.async_api import async_playwright
 
+from .. import env as pilot_env
 from ..config import Target
 from ._img import fit_width
 
@@ -20,13 +21,13 @@ class WebDevice:
 
     async def start(self) -> None:
         self._pw = await async_playwright().start()
-        channel = os.environ.get("UX_SWARM_CHROME_CHANNEL", "chrome")
+        channel = pilot_env("CHROME_CHANNEL", "chrome")
         try:
             self._browser = await self._pw.chromium.launch(channel=channel, headless=True)
         except Exception:
             self._browser = await self._pw.chromium.launch(headless=True)
         w, h = self.target.viewport
-        state = os.environ.get("UX_SWARM_STORAGE_STATE")
+        state = pilot_env("STORAGE_STATE")
         self._context = await self._browser.new_context(
             viewport={"width": w, "height": h},
             device_scale_factor=self.target.scale,

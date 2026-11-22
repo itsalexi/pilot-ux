@@ -3,8 +3,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from ux_swarm.config import Target
-from ux_swarm.devices import ios
+from pilot_ux.config import Target
+from pilot_ux.devices import ios
 
 
 def device(monkeypatch, path):

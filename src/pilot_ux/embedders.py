@@ -9,7 +9,9 @@ from pathlib import Path
 
 import numpy as np
 
-CACHE = Path(os.environ.get("UX_SWARM_CACHE", Path.home() / ".cache" / "ux-swarm" / "emb"))
+from . import env as pilot_env
+
+CACHE = Path(pilot_env("CACHE") or Path.home() / ".cache" / "pilot-ux" / "emb")
 
 
 class EmbedderUnavailable(RuntimeError):

@@ -3,8 +3,8 @@ import json
 
 import pytest
 
-from ux_swarm import claude, runner
-from ux_swarm.config import load_study
+from pilot_ux import claude, runner
+from pilot_ux.config import load_study
 
 
 @pytest.mark.parametrize("response", [{}, {"prior_knowledge": None}, {"prior_knowledge": "false"},
@@ -200,9 +200,9 @@ def test_legacy_hosted_study_can_resume_and_detect_changed_codex_default(tmp_pat
     legacy_pins = {role: "codex:gpt-a" for role in runner._ROLES if role != "matcher"}
     study.codex_models = {"matcher": "gpt-matcher"}
     (out / "study.lock.json").write_text(json.dumps({"study": study.model_dump(mode="json"), "models": legacy_pins}))
-    monkeypatch.setattr("ux_swarm.config.default_codex_model", lambda: "gpt-a")
+    monkeypatch.setattr("pilot_ux.config.default_codex_model", lambda: "gpt-a")
     assert runner.write_lock(study, out) == runner.plan_runs(study)
-    monkeypatch.setattr("ux_swarm.config.default_codex_model", lambda: "gpt-b")
+    monkeypatch.setattr("pilot_ux.config.default_codex_model", lambda: "gpt-b")
     with pytest.raises(ValueError, match="persona backend or model changed"):
         runner.write_lock(study, out)
 

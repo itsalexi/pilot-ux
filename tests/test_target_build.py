@@ -3,8 +3,8 @@ import shutil
 
 import pytest
 
-from ux_swarm import runner
-from ux_swarm.config import Study, Target
+from pilot_ux import runner
+from pilot_ux.config import Study, Target
 
 
 def study_for(**target):

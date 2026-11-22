@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field, model_serializer, model_validator
 DEFAULT_MODEL = "claude-opus-5-5"
 
 
-REPO_PATHS = {"templates": "skills/ux-swarm/templates", "claude-design": "skills/ux-swarm/claude-design"}
+REPO_PATHS = {"templates": "skills/pilot/templates", "claude-design": "skills/pilot/claude-design"}
 
 
 def data_dir(name: str) -> Path:

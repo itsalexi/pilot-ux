@@ -1,4 +1,4 @@
-# ux-swarm study. Paths are relative to this file.
+# pilot study. Paths are relative to this file.
 name: my-app-checkout
 product_hint: "an app for ordering food"   # one neutral line personas are told; never feature names
 target:

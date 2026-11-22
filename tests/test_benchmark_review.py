@@ -4,7 +4,7 @@ import json
 import pytest
 from PIL import Image, PngImagePlugin
 
-from ux_swarm.benchmark_review import export_review, score_review
+from pilot_ux.benchmark_review import export_review, score_review
 
 
 @pytest.fixture

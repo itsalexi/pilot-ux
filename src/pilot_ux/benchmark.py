@@ -98,7 +98,7 @@ def _prepare(study: Study, out: Path, panels: int, seed: int, patience: int) -> 
             raise ValueError("Benchmark design, assignment, model, prompts or build changed. Use a new benchmark directory.")
     else:
         pending = out / ".benchmark.json.partial"
-        if any(p.name not in {pending.name, ".ux-swarm.lock"} for p in out.iterdir()):
+        if any(p.name not in {pending.name, ".pilot.lock", ".ux-swarm.lock"} for p in out.iterdir()):
             raise ValueError("Use an empty benchmark directory or one containing its original benchmark.json.")
         pending.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
         pending.replace(key)

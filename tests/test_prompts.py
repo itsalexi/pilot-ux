@@ -1,4 +1,4 @@
-from ux_swarm.prompts import render
+from pilot_ux.prompts import render
 
 
 def test_render_persona_contains_card_goal_and_quit_rule():
@@ -12,7 +12,7 @@ def test_render_persona_contains_card_goal_and_quit_rule():
 
 def test_all_prompts_render_without_leftover_placeholders():
     import string
-    from ux_swarm.prompts import NAMES, _load
+    from pilot_ux.prompts import NAMES, _load
     for name in NAMES:
         ids = {m.group("named") or m.group("braced") for m in string.Template.pattern.finditer(_load(name))
                if m.group("named") or m.group("braced")}

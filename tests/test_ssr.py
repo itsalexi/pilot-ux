@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from ux_swarm import embedders, ssr
+from pilot_ux import embedders, ssr
 
 
 def test_pmf_sums_to_one_and_peaks_at_closest_anchor():
@@ -51,7 +51,7 @@ def test_unknown_provider_message():
 
 
 def test_interview_schema_covers_constructs_and_close_trigger():
-    from ux_swarm.interview import interview_schema
+    from pilot_ux.interview import interview_schema
     sch = interview_schema()
     keys = set(sch["properties"]["answers"]["properties"])
     assert set(ssr.constructs()) <= keys and "close_trigger" in keys

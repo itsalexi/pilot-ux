@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-title: "ux-swarm: synthetic-user usability testing for Claude Code"
-message: "If you use ux-swarm, please also cite the methods it builds on (see references)."
+title: "Pilot: synthetic first-time-user UX testing for coding agents"
+message: "If you use Pilot, please also cite the methods it builds on (see references)."
 license: MIT
 authors:
-  - name: "ux-swarm contributors"
+  - name: "Pilot contributors"
 references:
   - type: article
     title: "UXAgent: An LLM Agent-Based Usability Testing Framework for Web Design"

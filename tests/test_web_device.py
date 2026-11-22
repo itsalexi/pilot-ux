@@ -1,8 +1,8 @@
 import io
 from PIL import Image
-from ux_swarm.config import Target
-from ux_swarm.device_mcp import Session, build_server
-from ux_swarm.devices import make_device
+from pilot_ux.config import Target
+from pilot_ux.device_mcp import Session, build_server
+from pilot_ux.devices import make_device
 
 
 async def test_web_device_tap_changes_page(site_url):

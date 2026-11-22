@@ -1,7 +1,7 @@
 [project]
-name = "ux-swarm"
+name = "pilot-ux"
 version = "0.1.0"
-description = "Synthetic-user UX testing: blind, screenshot-only persona agents run by Claude Code, with SSR attitude scoring."
+description = "Test any UX like real first-time users, then fix it with your coding agent before shipping."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.12"
@@ -21,7 +21,7 @@ local = ["sentence-transformers>=3"]
 voyage = ["voyageai>=0.2"]
 
 [project.scripts]
-ux-swarm = "ux_swarm.cli:main"
+pilot = "pilot_ux.cli:main"
 
 [dependency-groups]
 dev = ["pytest>=8", "pytest-asyncio>=0.24"]
@@ -31,13 +31,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ux_swarm"]
+packages = ["src/pilot_ux"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"personas" = "ux_swarm/_data/personas"
-"anchors" = "ux_swarm/_data/anchors"
-"skills/ux-swarm/templates" = "ux_swarm/_data/templates"
-"skills/ux-swarm/claude-design" = "ux_swarm/_data/claude-design"
+"personas" = "pilot_ux/_data/personas"
+"anchors" = "pilot_ux/_data/anchors"
+"skills/pilot/templates" = "pilot_ux/_data/templates"
+"skills/pilot/claude-design" = "pilot_ux/_data/claude-design"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

@@ -1,7 +1,7 @@
 {
-  "name": "ux-swarm",
+  "name": "pilot",
   "version": "0.1.0",
-  "description": "Usability-test any app, prototype or idea with a swarm of blind, screenshot-only synthetic users; SSR attitude scoring; severity x frequency report.",
+  "description": "Test any UX like real first-time users, then fix it with your coding agent before shipping. Blind, screenshot-only testers; SSR attitude scoring; an interactive report and an agent-readable fix plan.",
   "license": "MIT",
   "keywords": ["usability", "ux-research", "synthetic-users", "personas", "think-aloud", "ssr"]
 }

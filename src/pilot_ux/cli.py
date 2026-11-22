@@ -1,4 +1,4 @@
-"""ux-swarm command line."""
+"""pilot command line."""
 from __future__ import annotations
 
 import argparse
@@ -33,7 +33,7 @@ def cmd_init(a):
     for f in tpl.glob("*.yaml"):
         if not (dst / f.name).exists():
             shutil.copy(f, dst / f.name)
-    print(f"wrote templates to {dst}. Edit study.yaml, then: ux-swarm run {dst / 'study.yaml'} --dry-run")
+    print(f"wrote templates to {dst}. Edit study.yaml, then: pilot run {dst / 'study.yaml'} --dry-run")
 
 
 def cmd_personas(a):
@@ -68,7 +68,7 @@ def cmd_capture(a):
 def cmd_stitch(a):
     from .capture import stitch_dir
     fp = asyncio.run(stitch_dir(a.src, a.out, start=a.start, width=a.width, claude_design=a.claude_design, only=a.only))
-    print(f"wrote {fp} (+ screens/, screens.map.yaml). Next: ux-swarm preview {fp} -o {Path(a.out) / 'sheet.png'}")
+    print(f"wrote {fp} (+ screens/, screens.map.yaml). Next: pilot preview {fp} -o {Path(a.out) / 'sheet.png'}")
 
 
 def dry_run(s, only: list[str] | None = None) -> str:
@@ -212,7 +212,7 @@ def cmd_ssr(a):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="ux-swarm", description="Synthetic-user UX testing with blind persona agents.")
+    ap = argparse.ArgumentParser(prog="pilot", description="Test any UX like real first-time users, then fix it with your coding agent.")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("init", help="copy study/persona/flow templates into a folder")

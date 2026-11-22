@@ -4,13 +4,13 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from ux_swarm import codex
-from ux_swarm.config import Study, Target, Task
+from pilot_ux import codex
+from pilot_ux.config import Study, Target, Task
 
 
 def test_codex_cmd_is_locked_down(tmp_path):
     cmd = codex.build_cmd("gpt-x", "PROMPT", cwd=tmp_path,
-                          mcp={"command": "/py", "args": ["-m", "ux_swarm.device_mcp", "--url", "http://x"]})
+                          mcp={"command": "/py", "args": ["-m", "pilot_ux.device_mcp", "--url", "http://x"]})
     j = " ".join(cmd)
     assert cmd[:2] == ["codex", "exec"] and cmd[-1] == "PROMPT"
     assert cmd[cmd.index("-m") + 1] == "gpt-x"
@@ -19,7 +19,7 @@ def test_codex_cmd_is_locked_down(tmp_path):
     for feat in ("shell_tool", "unified_exec", "view_image", "browser_use", "computer_use", "multi_agent", "memories"):
         assert f"--disable {feat}" in j
     assert 'mcp_servers.device.default_tools_approval_mode="approve"' in j
-    assert 'mcp_servers.device.args=["-m", "ux_swarm.device_mcp", "--url", "http://x"]' in j
+    assert 'mcp_servers.device.args=["-m", "pilot_ux.device_mcp", "--url", "http://x"]' in j
 
 
 def test_strict_schema_closes_objects():

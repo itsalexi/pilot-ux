@@ -1,7 +1,7 @@
 import textwrap
 import pytest
 from pydantic import ValidationError
-from ux_swarm.config import load_study, Persona
+from pilot_ux.config import load_study, Persona
 
 
 def write(tmp_path, body):

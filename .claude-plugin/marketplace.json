@@ -1,7 +1,7 @@
 {
-  "name": "ux-swarm",
-  "owner": {"name": "ux-swarm contributors"},
+  "name": "pilot",
+  "owner": {"name": "Pilot contributors"},
   "plugins": [
-    {"name": "ux-swarm", "source": "./", "description": "Synthetic-user UX testing with blind persona agents."}
+    {"name": "pilot", "source": "./", "description": "Test any UX like real first-time users, then fix it with your coding agent."}
   ]
 }

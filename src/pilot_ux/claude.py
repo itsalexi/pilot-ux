@@ -9,7 +9,9 @@ import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
-CLAUDE_BIN = os.environ.get("UX_SWARM_CLAUDE_BIN", "claude")
+from . import env as pilot_env
+
+CLAUDE_BIN = pilot_env("CLAUDE_BIN", "claude")
 
 
 @dataclass
@@ -83,7 +85,7 @@ async def run(cmd: list[str], cwd: Path, timeout_s: float = 1800, raw_path: Path
 async def ask_json(model: str, system: str, prompt: str, schema: dict, files: dict[str, Path] | None = None,
                    timeout_s: float = 900, retries: int = 2, log_path: Path | None = None) -> dict:
     """One-shot structured call. `files` (name -> source) are copied into a private temp cwd readable via Read."""
-    with tempfile.TemporaryDirectory(prefix="uxs-") as d:
+    with tempfile.TemporaryDirectory(prefix="pilot-") as d:
         cwd = Path(d)
         for name, src in (files or {}).items():
             dst = cwd / name

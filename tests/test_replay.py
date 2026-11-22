@@ -4,9 +4,9 @@ import re
 import pytest
 from PIL import Image
 
-from ux_swarm.config import Study, Target, Task, load_persona_ref
-from ux_swarm.replay import build_replay, collect_replay, render_replay
-from ux_swarm.runner import plan_runs
+from pilot_ux.config import Study, Target, Task, load_persona_ref
+from pilot_ux.replay import build_replay, collect_replay, render_replay
+from pilot_ux.runner import plan_runs
 
 
 @pytest.fixture

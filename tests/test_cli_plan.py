@@ -1,7 +1,7 @@
 import shutil
 
-from ux_swarm import config
-from ux_swarm.cli import main
+from pilot_ux import config
+from pilot_ux.cli import main
 
 
 def study_file(tmp_path, extra=""):
@@ -25,7 +25,7 @@ def test_all_dry_run_names_codex_persona_model(tmp_path, capsys):
 
 
 def test_held_all_exits_before_analysis(tmp_path, monkeypatch, capsys):
-    from ux_swarm import cli
+    from pilot_ux import cli
 
     path = study_file(tmp_path)
     out = str(tmp_path / "runs")
@@ -60,7 +60,7 @@ def test_mixed_dry_run_follows_selected_run_numbers(tmp_path, capsys):
 
 
 def test_init_then_dry_run_from_installed_layout(tmp_path, monkeypatch, capsys):
-    package = tmp_path / "site-packages" / "ux_swarm"
+    package = tmp_path / "site-packages" / "pilot_ux"
     for name in ("templates", "personas"):
         shutil.copytree(config.data_dir(name), package / "_data" / name)
     monkeypatch.setattr(config, "__file__", str(package / "config.py"))

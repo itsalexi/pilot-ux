@@ -24,7 +24,7 @@ success_criteria:
 
 ## Personas
 
-Start from the defaults (`uxs personas`) and add product-specific behaviors as needed. The card fields describe a hypothesis about how someone might approach a task. The runner enforces the patience budget. The configured target determines the actual device and viewport.
+Start from the defaults (`pilot personas`) and add product-specific behaviors as needed. The card fields describe a hypothesis about how someone might approach a task. The runner enforces the patience budget. The configured target determines the actual device and viewport.
 
 | Field | Effect |
 |---|---|

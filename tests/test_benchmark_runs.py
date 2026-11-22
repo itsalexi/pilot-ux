@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from ux_swarm import analyze, benchmark, claude, runner
-from ux_swarm.config import load_study
+from pilot_ux import analyze, benchmark, claude, runner
+from pilot_ux.config import load_study
 
 
 def smoke():
@@ -124,7 +124,7 @@ async def test_runs_plan_in_order_and_resumes_at_first_incomplete_session(tmp_pa
 
 
 def _recorded_terminal_sessions(tmp_path):
-    from ux_swarm.config import Study
+    from pilot_ux.config import Study
 
     study = smoke()
     plan = benchmark.prepare_benchmark(study, tmp_path)

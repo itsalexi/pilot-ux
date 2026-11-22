@@ -227,8 +227,8 @@ def fix_prompt(d: dict, i: dict) -> str:
     out = d["outDir"].rstrip("/")
     only = " ".join(t["id"] for t in tasks)
     lines += [f"Retest: copy {study_file} to fixed.yaml and set out_dir to {out}-fixed, then run",
-              f"  ux-swarm all fixed.yaml --only {only}",
-              f"  ux-swarm recheck {out} {out}-fixed"]
+              f"  pilot all fixed.yaml --only {only}",
+              f"  pilot recheck {out} {out}-fixed"]
     return "\n".join(lines)
 
 

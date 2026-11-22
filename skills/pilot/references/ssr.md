@@ -8,7 +8,7 @@ LLMs asked directly for a 1–5 rating give narrow, skewed answers (mostly 3s an
 
 In the paper this reached about 90% of human test–retest reliability across 57 product surveys, with realistic distribution shapes.
 
-## In ux-swarm
+## In Pilot
 
 - **Constructs:** ease, trust, use_intent, pay_intent, and the 10 System Usability Scale (SUS) items. Anchors are in `anchors/*.yaml`, with ≥4 sets each. SUS items share templated agreement anchors.
 - **SUS:** each item's pmf is sampled and scored with standard SUS scoring. The report gives a median and an 80% interval, not a point.

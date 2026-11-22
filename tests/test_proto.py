@@ -6,9 +6,9 @@ import httpx
 import pytest
 from PIL import Image, ImageDraw
 
-from ux_swarm.config import Target
-from ux_swarm.devices import make_device
-from ux_swarm.proto import load_flow, preview_sheet, serve_proto, serve_static
+from pilot_ux.config import Target
+from pilot_ux.devices import make_device
+from pilot_ux.proto import load_flow, preview_sheet, serve_proto, serve_static
 
 
 @pytest.fixture
@@ -76,8 +76,8 @@ def test_preview_sheet_written(flow_file, tmp_path):
 
 
 def test_task_start_overrides_flow_start(flow_file, tmp_path):
-    from ux_swarm.runner import TargetHost
-    from ux_swarm.config import Study, Target, Task
+    from pilot_ux.runner import TargetHost
+    from pilot_ux.config import Study, Target, Task
     from contextlib import ExitStack
     study = Study(name="s", target=Target(kind="proto", flow=str(flow_file)), personas=[],
                   tasks=[Task(id="t", goal="g", success_criteria=["c"], start="paid_all")])

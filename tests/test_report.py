@@ -1,7 +1,7 @@
 import json
 
-from ux_swarm import report
-from ux_swarm.config import load_study
+from pilot_ux import report
+from pilot_ux.config import load_study
 
 
 def _out(tmp_path):

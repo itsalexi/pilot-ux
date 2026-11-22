@@ -6,9 +6,9 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 from PIL import Image
 
-from ux_swarm.config import Study, Target, Task, load_persona_ref
-from ux_swarm.report import build
-from ux_swarm.runner import plan_runs
+from pilot_ux.config import Study, Target, Task, load_persona_ref
+from pilot_ux.report import build
+from pilot_ux.runner import plan_runs
 
 
 QUIT_REASON = "I could not find the order confirmation."

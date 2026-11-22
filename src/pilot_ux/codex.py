@@ -14,9 +14,10 @@ import shutil
 import tempfile
 from pathlib import Path
 
+from . import env as pilot_env
 from .claude import ClaudeResult
 
-CODEX_BIN = os.environ.get("UX_SWARM_CODEX_BIN", "codex")
+CODEX_BIN = pilot_env("CODEX_BIN", "codex")
 DISABLE = ["shell_tool", "unified_exec", "view_image", "browser_use", "browser_use_external", "in_app_browser",
            "computer_use", "apps", "plugins", "multi_agent", "memories", "image_generation", "skill_search"]
 
@@ -85,7 +86,7 @@ def parse_events(lines, returncode: int) -> ClaudeResult:
 
 def _home() -> tempfile.TemporaryDirectory:
     src = Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")) / "auth.json"
-    h = tempfile.TemporaryDirectory(prefix="uxs-codex-")
+    h = tempfile.TemporaryDirectory(prefix="pilot-codex-")
     if src.exists():
         os.symlink(src, Path(h.name) / "auth.json")
     return h
@@ -135,7 +136,7 @@ async def ask_json(model: str, system: str, prompt: str, schema: dict, files: di
     if images:
         full += ("\n\nImages are attached in this order (the Read tool is not available; use the attachments): "
                  + ", ".join(r for r, _ in images))
-    with tempfile.TemporaryDirectory(prefix="uxs-") as d:
+    with tempfile.TemporaryDirectory(prefix="pilot-") as d:
         cwd = Path(d)
         sp, lp = cwd / "schema.json", cwd / "last.txt"
         sp.write_text(json.dumps(strict(schema)))

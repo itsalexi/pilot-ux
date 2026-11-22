@@ -1,6 +1,6 @@
 import pytest
 
-from ux_swarm.evaluate import compute_metrics
+from pilot_ux.evaluate import compute_metrics
 
 
 def test_eval_recall_and_fp_from_labels():

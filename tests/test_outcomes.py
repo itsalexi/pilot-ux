@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from ux_swarm import outcomes
-from ux_swarm.device_mcp import Session
+from pilot_ux import outcomes
+from pilot_ux.device_mcp import Session
 
 
 def test_device_finish_only_completes_when_publication_succeeds(tmp_path, monkeypatch):

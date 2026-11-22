@@ -4,10 +4,10 @@ import pytest
 import yaml
 from PIL import Image
 
-from ux_swarm.cli import main
-from ux_swarm.config import Study, Target, Task, load_persona_ref
-from ux_swarm.recheck import Witness, compare
-from ux_swarm.runner import plan_runs
+from pilot_ux.cli import main
+from pilot_ux.config import Study, Target, Task, load_persona_ref
+from pilot_ux.recheck import Witness, compare
+from pilot_ux.runner import plan_runs
 
 
 def store(path, data):

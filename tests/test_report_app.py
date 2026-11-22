@@ -1,7 +1,7 @@
 import asyncio
 import json
 
-from ux_swarm import report_app, translate
+from pilot_ux import report_app, translate
 from test_report import _out
 
 
@@ -29,7 +29,7 @@ def test_fix_plan_carries_everything_an_agent_needs(tmp_path):
     assert "where is it" in major  # tester quote
     assert "Suggested fix: f" in major
     assert str(out / "runs/detail-checker__t__r1/shots/0000.png") in major  # exact screen to look at
-    assert "--only t" in major and "ux-swarm recheck" in major  # how to retest
+    assert "--only t" in major and "pilot recheck" in major  # how to retest
     gaps = text[text.index("Not product problems"):]
     assert "Unbuilt button" in gaps and text.count("Unbuilt button") == 1  # gaps are listed, never queued as fixes
 

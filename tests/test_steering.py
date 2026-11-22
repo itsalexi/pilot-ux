@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 
-from ux_swarm import claude, runner
-from ux_swarm.config import load_study
+from pilot_ux import claude, runner
+from pilot_ux.config import load_study
 
 
 @pytest.fixture

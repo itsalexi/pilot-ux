@@ -23,7 +23,7 @@ from .prompts import render
 BACKOFF = [30, 90]
 SESSION_TIMEOUT_S = 45 * 60
 FINAL = {"done", "gave_up", "out_of_patience"}
-_DRAIN_MARKER = ".ux-swarm-drain"
+_DRAIN_MARKER = ".pilot-drain"
 
 
 def request_drain(out: Path) -> None:
@@ -304,7 +304,7 @@ async def run_session(study: Study, spec: RunSpec, run_dir: Path, url: str | Non
     target_json.write_text(study.target.model_dump_json())
     mcp = {"mcpServers": {"device": {
         "command": sys.executable,
-        "args": ["-m", "ux_swarm.device_mcp", "--run-dir", str(run_dir), "--target-json", str(target_json),
+        "args": ["-m", "pilot_ux.device_mcp", "--run-dir", str(run_dir), "--target-json", str(target_json),
                  "--patience", str(spec.persona.patience_steps)] + (["--url", url] if url else []),
     }}}
     (run_dir / "device.json").write_text(json.dumps(mcp))
@@ -319,13 +319,13 @@ async def run_session(study: Study, spec: RunSpec, run_dir: Path, url: str | Non
     user = render("persona_task", context=spec.task.context or "", goal=spec.task.goal)
     backend = study.backend_for("persona", spec.n)
     if backend == "codex":
-        with tempfile.TemporaryDirectory(prefix="uxs-") as cwd:
+        with tempfile.TemporaryDirectory(prefix="pilot-") as cwd:
             cmd = codex.build_cmd(study.model_for("persona", "codex"), system + "\n\n---\n\n" + user, Path(cwd),
                                   mcp=mcp["mcpServers"]["device"])
             return await codex.run(cmd, SESSION_TIMEOUT_S, raw_path=run_dir / "agent.jsonl")
     cmd = claude.build_cmd(study.model_for("persona"), system, user, run_dir / "device.json",
                            allowed=["mcp__device"])
-    with tempfile.TemporaryDirectory(prefix="uxs-") as cwd:  # empty: nothing to read, nothing to leak
+    with tempfile.TemporaryDirectory(prefix="pilot-") as cwd:  # empty: nothing to read, nothing to leak
         res = await claude.run(cmd, Path(cwd), SESSION_TIMEOUT_S, raw_path=run_dir / "agent.jsonl")
     if device_failed(run_dir / "agent.jsonl"):
         return claude.ClaudeResult(False, f"device MCP server failed to start; see {run_dir / 'device.log'}", None)
@@ -411,7 +411,7 @@ def _exclusive_output(out: Path):
         try:
             if os.name == "nt":
                 import msvcrt
-                handle = stack.enter_context((out / ".ux-swarm.lock").open("a+b"))
+                handle = stack.enter_context((out / ".pilot.lock").open("a+b"))
                 handle.seek(0)
                 msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
             else:

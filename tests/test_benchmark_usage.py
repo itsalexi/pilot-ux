@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from ux_swarm.benchmark_usage import summarize_usage
+from pilot_ux.benchmark_usage import summarize_usage
 
 
 def fixture(root, ids):

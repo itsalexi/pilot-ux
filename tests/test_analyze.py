@@ -3,8 +3,8 @@ import json
 import pytest
 from PIL import Image
 
-from ux_swarm import analyze
-from ux_swarm.config import load_study
+from pilot_ux import analyze
+from pilot_ux.config import load_study
 
 
 def _setup(tmp_path):

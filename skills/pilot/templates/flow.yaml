@@ -1,4 +1,4 @@
-# Stitched prototype: static screens + hotspots. `ux-swarm stitch` writes this for linked HTML; hand-write it for images.
+# Stitched prototype: static screens + hotspots. `pilot stitch` writes this for linked HTML; hand-write it for images.
 # rect: [x, y, w, h] in CSS px on the `width`-wide image (y from the top of the full image; tall images scroll).
 # to: screen id to show on tap.  input: any name -> draws a text box the persona can type into.
 # A hotspot with neither (or no hotspot at all) = tap does nothing and is logged as a prototype gap.

@@ -95,7 +95,7 @@ def _task_table(study, runs):
 
 def render_md(study: Study, out: Path, d: dict) -> str:
     runs = d["runs"]
-    L = [f"# ux-swarm report: {study.name}", "",
+    L = [f"# pilot report: {study.name}", "",
          f"> Synthetic users ({len(study.personas)} personas × {len(study.tasks)} tasks × {study.runs} runs, "
          f"persona models `{d['models'].get('persona', 'unrecorded')}`). Use this to triage, then test with real people. "
          f"Agents are more patient, literal and polite than humans; trust and emotion findings are weakest.", "",

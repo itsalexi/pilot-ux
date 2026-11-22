@@ -4,7 +4,7 @@ Personas only see pixels. Your job is to turn whatever the user gave you into so
 
 | Input | Do this | `target:` |
 |---|---|---|
-| Live or local URL | Open the target and seed the authorized test environment with realistic sample data. For signed-in tasks, use a test identity and an ignored Playwright storage-state file through `UX_SWARM_STORAGE_STATE`. Keep credentials and real customer data out of the task, screenshots and reports. Reset mutable data between measured attempts using an isolated test account or fixture. | `{kind: url, url: ...}` |
+| Live or local URL | Open the target and seed the authorized test environment with realistic sample data. For signed-in tasks, use a test identity and an ignored Playwright storage-state file through `PILOT_STORAGE_STATE` (the legacy `UX_SWARM_STORAGE_STATE` also works). Keep credentials and real customer data out of the task, screenshots and reports. Reset mutable data between measured attempts using an isolated test account or fixture. | `{kind: url, url: ...}` |
 | Repo | Read the README, package scripts and framework config. Start its dev server, wait for the port, and use the project's test fixtures. Resolve build or seed failures within scope. Record the build under test. For a retest, restart or rebuild the target and check that it serves the patched source. For a native iOS target, use the simulator workflow below. | `{kind: url, url: http://localhost:PORT}` |
 | Folder of HTML pages that link to each other | Serve it as is. Routes are made opaque and `<title>` is blanked automatically. | `{kind: static, folder: path, url: index.html}` |
 | Static screens: design artboards, Figma or Claude Design exports, a screenshot folder, HTML with no working links | Stitch a clickable prototype (below). | `{kind: proto, flow: flow.yaml, fidelity: prototype}` |
@@ -16,7 +16,7 @@ Personas only see pixels. Your job is to turn whatever the user gave you into so
 **HTML pages or artboards that link to each other** (`<a href="Other.html">`): let the tool do the first pass.
 
 ```bash
-uxs stitch <folder> -o proto --start <first-page-stem> [--claude-design] [--only Stem1 Stem2 ...]
+pilot stitch <folder> -o proto --start <first-page-stem> [--claude-design] [--only Stem1 Stem2 ...]
 ```
 
 It renders every page and writes:
@@ -26,7 +26,7 @@ It renders every page and writes:
 
 Then edit `flow.yaml`: point UNLINKED hotspots at screens you do have, and leave the rest UNLINKED, because taps on them are real prototype gaps.
 
-**Images, or HTML without links:** run `uxs capture <folder> -o proto/screens`. It renders HTML and resizes PNG, JPG or WEBP files to 390 px wide. Then write `flow.yaml` by hand from `templates/flow.yaml`:
+**Images, or HTML without links:** run `pilot capture <folder> -o proto/screens`. It renders HTML and resizes PNG, JPG or WEBP files to 390 px wide. Then write `flow.yaml` by hand from `templates/flow.yaml`:
 - `rect` is `[x, y, w, h]` in CSS px on the 390-wide image;
 - `to:` is a screen id;
 - `input: <any name>` draws a text box the persona can type into.
@@ -41,8 +41,8 @@ Either way:
    - A change on the same screen (an open dropdown, a toggle, a selected option, a button enabled after typing) is a second image of that screen, reached by a hotspot.
    - If the source has no image of a state the task needs, say so (step 3 of the workflow).
    - Tall images scroll. Hotspot y-coordinates are measured from the top of the full image.
-5. Run `uxs preview proto/flow.yaml -o proto/sheet.png` and **look at the sheet**. Every box should sit on a real control. Fix any that don't; a misplaced hotspot creates fake confusion.
-6. If the flow is long, click through it yourself once with `uxs serve-proto proto/flow.yaml`.
+5. Run `pilot preview proto/flow.yaml -o proto/sheet.png` and **look at the sheet**. Every box should sit on a real control. Fix any that don't; a misplaced hotspot creates fake confusion.
+6. If the flow is long, click through it yourself once with `pilot serve-proto proto/flow.yaml`.
 
 ## What leaks, and how to stop it
 

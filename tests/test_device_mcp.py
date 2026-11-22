@@ -1,6 +1,6 @@
 import json
 
-from ux_swarm.device_mcp import Session, TOOL_NAMES, build_server
+from pilot_ux.device_mcp import Session, TOOL_NAMES, build_server
 
 
 class FakeDevice:

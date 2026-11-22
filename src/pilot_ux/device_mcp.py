@@ -1,6 +1,6 @@
 """MCP stdio server giving a persona agent eyes (screenshots) and hands (tap/type/scroll/back) only.
 
-Run: python -m ux_swarm.device_mcp --run-dir DIR --target-json FILE --patience N [--url URL]
+Run: python -m pilot_ux.device_mcp --run-dir DIR --target-json FILE --patience N [--url URL]
 """
 from __future__ import annotations
 

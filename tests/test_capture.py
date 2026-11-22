@@ -1,6 +1,6 @@
 from PIL import Image
 
-from ux_swarm.capture import capture_dir
+from pilot_ux.capture import capture_dir
 
 
 async def test_capture_dir_renders_each_page(tmp_path):
@@ -21,8 +21,8 @@ async def test_capture_dir_renders_each_page(tmp_path):
 
 async def test_stitch_extracts_links_inputs_and_unlinked_buttons(tmp_path):
     import yaml
-    from ux_swarm.capture import stitch_dir
-    from ux_swarm.proto import load_flow
+    from pilot_ux.capture import stitch_dir
+    from pilot_ux.proto import load_flow
     src = tmp_path / "src"
     src.mkdir()
     (src / "HomeSecret.html").write_text(
