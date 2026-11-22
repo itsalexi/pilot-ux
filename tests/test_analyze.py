@@ -143,3 +143,22 @@ def test_annotator_shots_send_everything_when_under_the_cap(tmp_path):
     for i in range(5):
         (tmp_path / "shots" / f"{i:04d}.png").write_bytes(b"x")
     assert sorted(annotator_shots(tmp_path, cap=20)) == [f"shots/{i:04d}.png" for i in range(5)]
+
+
+async def test_verifier_sees_the_whole_path_not_only_the_last_screens(tmp_path, monkeypatch):
+    # A criterion like "a screen shows each person's amount" is often met mid-session, before the final
+    # confirmation screen; judging only the last three screens rejects real successes.
+    study, out, rd = _setup(tmp_path)
+    for i in range(12):
+        (rd / "shots" / f"{i:04d}.png").write_bytes(b"x")
+    seen = {}
+
+    async def fake_ask(model, system, prompt, schema, files=None, **k):
+        seen["files"], seen["prompt"] = files, prompt
+        return {"verdict": "verified", "reason": "ok"}
+
+    monkeypatch.setattr(analyze.agents.claude, "ask_json", fake_ask)
+    await analyze.verify(study, out)
+    names = sorted(seen["files"])
+    assert names[0] == "path/0000.png" and names[-1] == "path/0011.png" and len(names) == 12
+    assert "I paid" not in seen["prompt"]

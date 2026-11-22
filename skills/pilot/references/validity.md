@@ -13,7 +13,7 @@
 | Number | Meaning | Worry when |
 |---|---|---|
 | Leak canary flagged | Persona showed prior product knowledge in its first thought | > 0: check isolation and the `product_hint` |
-| Verifier overturned X/Y | Claimed successes the final screens didn't support | high: agents over-claim, so trust verified numbers only |
+| Verifier overturned X/Y | Claimed successes the session's screens didn't support | high: agents over-claim, so trust verified numbers only |
 | Issue-set Jaccard across runs | How repeatable findings are for the same persona × task | < 0.3: findings are mostly noise; add runs |
 | Outcome agreement, Fleiss κ | Whether runs agree on success / quit | κ < 0.2: outcomes are coin flips |
 

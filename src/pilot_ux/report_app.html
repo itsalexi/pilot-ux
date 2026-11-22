@@ -470,7 +470,7 @@ function renderDrawer() {
     <div class="dbody">
       <h3 id="d-sure">How sure</h3>
       <div class="stat"><b>${v.sessions - v.errors}/${v.sessions}</b><span>sessions ran without errors</span></div>
-      <div class="stat"><b>${confirmed}/${v.claimed}</b><span>“Done” claims confirmed by a separate checker that only saw the final screen</span></div>
+      <div class="stat"><b>${confirmed}/${v.claimed}</b><span>“Done” claims confirmed by a separate checker that saw only the screens, not what the tester said</span></div>
       <div class="stat"><b>${v.failed}</b><span>${v.failed === 1 ? 'session' : 'sessions'} where the tester gave up or ran out of patience. That call is the tester’s own; no second checker reviews it, so read their last steps in the replay.</span></div>
       <div class="stat"><b>${v.contaminated}</b><span>testers who knew anything about ${esc(product)} beforehand</span></div>
       ${model ? `<div class="stat"><b>1</b><span>model for every tester and every run (${esc(model)})</span></div>` : ''}

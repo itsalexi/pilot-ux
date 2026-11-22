@@ -118,7 +118,7 @@ An AI reviewer checked every reported problem against its screenshots. No indepe
 
 Each tester runs in its own Claude or Codex process, in an empty folder, with only a device to drive. It never sees your code, your notes, or the expected path.
 
-After the sessions, separate agents check the work. A verifier reads each tester's final screens and decides whether the task really succeeded. An annotator rates each problem from 0 to 4. A merger counts how many testers hit it.
+After the sessions, separate agents check the work. A verifier sees only the screens from each session, never what the tester said, and decides whether the task really succeeded. An annotator rates each problem from 0 to 4. A merger counts how many testers hit it.
 
 Each tester also answers a short interview in character. Pilot scores those answers with Semantic Similarity Rating, which turns free text into a 1 to 5 distribution instead of a single number.
 

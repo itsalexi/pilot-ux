@@ -105,8 +105,8 @@ async def verify(study: Study, out: Path, log=print) -> None:
                 v = await _verify_reopened(study, spec.task, rd, outcome)
                 v["verify_after"] = "reopen"
             else:
-                shots = sorted((rd / "shots").glob("*.png"))[-3:]
-                v = await _judge_screens(study, spec.task, {f"final/{i + 1}.png": p for i, p in enumerate(shots)})
+                shots = annotator_shots(rd)
+                v = await _judge_screens(study, spec.task, {n.replace("shots/", "path/", 1): p for n, p in shots.items()})
         write_json(path, v)
         log(f"  verified {spec.id}: {v['verdict']}")
 
