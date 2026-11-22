@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pilot report</title>
 <!-- For coding agents: this is a visual report. The same findings, written as fix briefs, are in fix-plan.md
-     next to this file and in the <script id="fix-plan"> block at the end of this page. -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+     next to this file and in the hidden <pre id="fix-plan"> block at the end of this page. -->
 <style>
 :root{
   --bg:#F2F0EC; --stage:#EAE7E1; --card:#FFFFFF; --ink:#111111; --ink2:#5F5B55; --muted:#6B675F; --line:rgba(17,17,17,.08);
@@ -225,7 +223,7 @@ p{margin:0}
 <div class="modal" id="handoff" role="dialog" aria-modal="true" aria-label="Fix prompt"></div>
 <div class="follow" id="follow" role="dialog" aria-modal="true" aria-label="Follow one tester"></div>
 
-<script id="fix-plan" type="text/markdown"><!--__FIX_PLAN__--></script>
+<pre id="fix-plan" hidden><!--__FIX_PLAN__--></pre>
 <script>
 const D = /*__SNAG_DATA__*/null;
 const $ = (s, el = document) => el.querySelector(s);
@@ -356,7 +354,7 @@ function renderStage() {
   const k = t.sessions.filter(ok).length;
   const runs = [...new Set(t.sessions.map((s) => s.run))].sort((a, b) => a - b);
   if (!runs.includes(S.run)) S.run = runs[0];
-  const sess = t.sessions.filter((s) => s.run === S.run).sort((a, b) => a.persona.localeCompare(b.persona));
+  const sess = t.sessions.filter((s) => s.run === S.run && s.frames.length).sort((a, b) => a.persona.localeCompare(b.persona));
   $('#taskTitle').innerHTML = `${esc(t.label)}<span style="color:${scoreColor(k, t.sessions.length)}">${k}/${t.sessions.length} finished</span>`;
   $('#taskGoal').textContent = '“' + t.goal + '”';
   const en = $('#english'); en.hidden = !D.hasEn; en.setAttribute('aria-pressed', S.en);
@@ -496,6 +494,7 @@ $('#scrim').onclick = closeDrawer;
 
 const F = { open: false, at: 0, playing: false, timer: null };
 function openFollow(id, step) {
+  if (!sessById[id] || !sessById[id].frames.length) return;
   const s = sessById[id], p = person(s.persona), t = taskOf(D.runTask[id]), el = $('#follow'), last = s.frames.length - 1;
   const flags = {}; real.forEach((i) => i.evidence.filter((e) => e.run === id).forEach((e) => { (flags[e.step] = flags[e.step] || []).push(i); }));
   F.open = true; F.playing = false; S.playing = false; tick();

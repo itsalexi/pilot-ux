@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from . import agents
@@ -20,6 +21,19 @@ Return one entry per key.
 
 {lines}"""
 BATCH = 120
+_EN = set("""i you he she we they it me my your our their this that these those the a an and or but if so of in on at to for
+from with about as is are was were be been am do does did don't doesn't can can't cannot will won't would should could
+i'm i'll i've i'd it's that's there's what's let's not no yes here there where what when why how which who just now
+then back see look looks seems tap open go get got need want try trying still maybe okay ok think know""".split())
+
+
+def looks_english(line: str) -> bool:
+    """Cheap filter so all-English studies send nothing to translate: a line counts as English when at least a
+    fifth of its words are common English function words. Very short lines are left alone."""
+    words = re.findall(r"[a-z']+", line.lower().replace("’", "'"))
+    if len(words) <= 2:
+        return True
+    return sum(w in _EN for w in words) / len(words) >= 0.2
 
 
 def quote_key(quote: str) -> str:
@@ -69,7 +83,11 @@ async def translate(study: Study, out: Path, log=print) -> dict[str, dict[str, s
         lines.update(_quotes(out))
     if "_reasons" not in got:
         lines.update(_reasons(out))
+    lines = {k: v for k, v in lines.items() if not looks_english(v)}
     if not lines:
+        got.setdefault("_quotes", {})
+        got.setdefault("_reasons", {})
+        dest.write_text(json.dumps(got, indent=1, ensure_ascii=False))
         return got
     keys = list(lines)
     sem = asyncio.Semaphore(max(1, study.concurrency))

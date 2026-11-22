@@ -141,6 +141,12 @@ Each tester also answers a short interview in character. Pilot scores those answ
 - Google Chrome or Playwright Chromium, for web apps
 - For SSR, `OPENAI_API_KEY` with the `[openai]` extra, or a `local:` embedder such as `local:all-MiniLM-L6-v2` with the `[local]` extra
 
+To use the `pilot` command outside Claude Code, including from a coding agent working through `fix-plan.md`:
+
+```bash
+uv tool install git+https://github.com/itsalexi/pilot-ux
+```
+
 From a checkout, without installing the plugin:
 
 ```bash

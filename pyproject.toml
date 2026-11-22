@@ -30,6 +30,10 @@ dev = ["pytest>=8", "pytest-asyncio>=0.24"]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.uv]
+# Rebuild for uvx/uv tool when the source changes, not only when the version does.
+cache-keys = [{ file = "pyproject.toml" }, { file = "src/**/*" }]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/pilot_ux"]
 

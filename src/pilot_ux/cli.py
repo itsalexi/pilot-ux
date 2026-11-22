@@ -129,7 +129,10 @@ def cmd_analyze(a):
         await analyze.verify(s, _out(s))
         await analyze.annotate(s, _out(s))
         await analyze.merge(s, _out(s))
-        await translate(s, _out(s))
+        try:
+            await translate(s, _out(s))
+        except Exception as error:  # English lines are a convenience; never block the report on them
+            print(f"translation skipped: {error}")
     from .translate import translate
     asyncio.run(go())
 
@@ -139,7 +142,7 @@ def cmd_report(a):
     s = _study(a)
     md, html = build(s, _out(s))
     from .report_app import build as build_app
-    app, plan = build_app(_out(s), study=s)
+    app, plan = build_app(_out(s), study=s, study_file=str(Path(a.study).resolve()))
     print(f"report: {app}\n        {plan}\n        {md}\n        {html}")
 
 

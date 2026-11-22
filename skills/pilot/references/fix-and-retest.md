@@ -2,7 +2,7 @@
 
 Keep baseline and changed studies side by side, with separate output directories and fresh participant processes. An issue ID such as `I1` belongs to one specific merged report. Compare the described behavior and cited screens across builds. Keep the prior report hidden from the rerun's participants and annotator.
 
-Open `runs/baseline/report.html` and `runs/fixed-01/report.html`. Each finding's step links open its session player inside that report. The initial comparison identifies matched sessions and candidate recurrences.
+Open `runs/baseline/report.html` and `runs/fixed-01/report.html` for the evidence tables (`pilot.html` in each folder is the interactive replay). Each finding's step links open its session player inside that report. The initial comparison identifies matched sessions and candidate recurrences.
 
 ```bash
 pilot recheck runs/baseline runs/fixed-01

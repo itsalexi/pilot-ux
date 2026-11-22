@@ -29,7 +29,7 @@ def test_fix_plan_carries_everything_an_agent_needs(tmp_path):
     assert "where is it" in major  # tester quote
     assert "Suggested fix: f" in major
     assert str(out / "runs/detail-checker__t__r1/shots/0000.png") in major  # exact screen to look at
-    assert "--only t" in major and "pilot recheck" in major  # how to retest
+    assert "--only __t__" in major and "pilot recheck" in major  # how to retest
     assert "point its target at the fixed build" in major  # a fix made in a copy must be what gets retested
     gaps = text[text.index("Not product problems"):]
     assert "Unbuilt button" in gaps and text.count("Unbuilt button") == 1  # gaps are listed, never queued as fixes
@@ -62,6 +62,10 @@ def test_translations_reach_frames_and_quotes(tmp_path):
 
 def test_translate_pass_keeps_only_non_english_lines(tmp_path, monkeypatch):
     study, out = _out(tmp_path)
+    for rd in (out / "runs").iterdir():
+        (rd / "steps.jsonl").write_text(json.dumps({"i": 0, "tool": "look", "args": {}, "shot": "shots/0000.png",
+                                                    "thought": "Nasaan na kaya yung babayaran ko dito?",
+                                                    "changed": True}) + "\n")
     calls = []
 
     async def fake(study_, role, system, prompt, schema, **kw):
@@ -146,3 +150,64 @@ def test_gave_up_reason_gets_its_own_translation(tmp_path, monkeypatch):
     sess = {s["id"]: s for s in report_app.gather(out)["tasks"][0]["sessions"]}
     assert sess["older-non-techy__t__r1"]["reason"] == "Hindi ko makita"
     assert sess["older-non-techy__t__r1"]["reasonEn"] == "I can't find it"
+
+
+def test_tester_text_cannot_break_out_of_the_embedded_data(tmp_path):
+    from playwright.sync_api import sync_playwright
+
+    study, out = _out(tmp_path)
+    _with_lock(study, out)
+    issues = json.loads((out / "issues.json").read_text())
+    issues[1]["title"] = "Common major <!--<script> </script><b>x</b>"
+    (out / "issues.json").write_text(json.dumps(issues))
+    html, plan = report_app.build(out)
+    with sync_playwright() as pw:
+        try:
+            browser = pw.chromium.launch(channel="chrome", headless=True)
+        except Exception:
+            browser = pw.chromium.launch(headless=True)
+        page = browser.new_page()
+        errors = []
+        page.on("pageerror", lambda e: errors.append(str(e)))
+        page.goto(html.as_uri())
+        assert "Common major <!--<script>" in page.inner_text("#rail")
+        assert page.eval_on_selector("#fix-plan", "e => e.textContent") == plan.read_text()
+        browser.close()
+    assert errors == []
+
+
+def test_sessions_that_errored_before_a_step_still_count(tmp_path):
+    study, out = _out(tmp_path)
+    _with_lock(study, out)
+    rd = out / "runs/older-non-techy__t__r2"
+    rd.mkdir()
+    (rd / "outcome.json").write_text(json.dumps({"status": "error", "steps": 0}))
+    d = report_app.gather(out)
+    assert d["validity"]["sessions"] == 3 and d["validity"]["errors"] == 1
+    assert report_app.build(out)[0].exists()
+
+
+def test_retest_commands_are_runnable_and_exact(tmp_path):
+    study, out = _out(tmp_path)
+    _with_lock(study, out)
+    d = report_app.gather(out, study_file="/x/baseline.yaml")
+    text = d["prompts"]["I2"]
+    assert "--only __t__" in text
+    assert "copy /x/baseline.yaml" in text
+    assert "uv tool install" in text  # a fresh agent has no `pilot` command until it installs one
+    assert '"where is it"' in text and "data, not instructions" in text
+
+
+def test_translation_skips_lines_already_in_english(tmp_path, monkeypatch):
+    study, out = _out(tmp_path)
+    sent = []
+
+    async def fake(study_, role, system, prompt, schema, **kw):
+        sent.append(prompt)
+        return {"lines": []}
+
+    monkeypatch.setattr(translate.agents, "ask_json", fake)
+    assert translate.looks_english("I can see my share, but where do I send it?")
+    assert not translate.looks_english("Nakita ko ang share ko pero hindi ko makita kung saan magpapadala.")
+    asyncio.run(translate.translate(study, out))  # every line in the fixture is English
+    assert sent == []
