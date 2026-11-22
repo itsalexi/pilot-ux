@@ -252,6 +252,7 @@ const reach = (i) => i.personas.length >= nP ? 'all ' + nP + ' testers' : i.pers
 const studyName = /[-_]/.test(D.study) && D.study === D.study.toLowerCase() ? (D.study[0].toUpperCase() + D.study.slice(1)).replace(/[-_]+/g, ' ') : D.study;
 const product = D.hint || studyName;
 const said = (f) => (S.en && f.en) ? f.en : f.say;
+const why = (s) => (S.en && s.reasonEn) ? s.reasonEn : s.reason;
 
 function actLabel(f) {
   const t = f.text ? ' “' + f.text + '”' : '';
@@ -392,7 +393,7 @@ function tick() {
   S.devs.forEach(({ s, d, bubble }) => {
     const j = d.show(S.at), last = s.frames.length - 1, done = j >= last;
     if (done) { ended++; if (!ok(s)) gaveUp++; }
-    bubble.textContent = done ? (s.reason || said(s.frames[Math.max(last - 1, 0)] || {})) : said(s.frames[j]);
+    bubble.textContent = done ? (why(s) || said(s.frames[Math.max(last - 1, 0)] || {})) : said(s.frames[j]);
     bubble.className = 'bubble' + (done ? (ok(s) ? ' good' : ' bad') : '');
   });
   $('#count').textContent = 'Step ' + (S.at + 1);
@@ -509,7 +510,7 @@ function openFollow(id, step) {
         <button class="x" aria-label="Close">×</button></div>
       <ol class="log" id="flog">${s.frames.slice(0, last).map((f, i) => `<li data-i="${i}"><button class="step" data-i="${i}"><span class="n">${i + 1}</span><span class="a">${esc(actLabel(f))}</span><span class="said">${esc(f.say)}</span>${f.en ? `<span class="en">${esc(f.en)}</span>` : ''}</button>
         ${(flags[i] || []).map((iss) => `<div class="flag"><span class="pip" style="background:${SEVC[iss.severity]}"></span><span class="t">${esc(iss.title)}</span><span class="s" style="color:${SEVC[iss.severity]}">${esc(iss.severityLabel)}</span></div>`).join('')}</li>`).join('')}
-        <li data-i="${last}"><div class="end" style="background:${STC[s.status]}"><p>${esc(STL[s.status])}</p><p>${esc(s.reason || said(s.frames[Math.max(last - 1, 0)] || {}))}</p></div></li></ol>
+        <li data-i="${last}"><div class="end" style="background:${STC[s.status]}"><p>${esc(STL[s.status])}</p><p>${esc(why(s) || said(s.frames[Math.max(last - 1, 0)] || {}))}</p></div></li></ol>
     </div>`;
   const phoneH = Math.min(window.innerHeight - 140, 760);
   const big = isPhone ? Math.min(330, Math.floor(phoneH * VW / VH)) : Math.min(Math.floor(Math.min(window.innerWidth * 0.4, 520)), Math.floor((phoneH - 24) * VW / VH));

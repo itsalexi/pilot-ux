@@ -71,7 +71,7 @@ def test_translate_pass_keeps_only_non_english_lines(tmp_path, monkeypatch):
 
     monkeypatch.setattr(translate.agents, "ask_json", fake)
     got = asyncio.run(translate.translate(study, out))
-    assert got == {"older-non-techy__t__r1": {"0": "hm in English"}, "_quotes": {}}
+    assert got == {"older-non-techy__t__r1": {"0": "hm in English"}, "_quotes": {}, "_reasons": {}}
     assert json.loads((out / "translations.json").read_text()) == got
     asyncio.run(translate.translate(study, out))
     assert len(calls) == 1  # cached
@@ -123,3 +123,25 @@ def test_report_page_runs_without_script_errors(tmp_path):
         assert page.is_visible("#follow")
         browser.close()
     assert errors == []
+
+
+def test_gave_up_reason_gets_its_own_translation(tmp_path, monkeypatch):
+    study, out = _out(tmp_path)
+    _with_lock(study, out)
+    rd = out / "runs/older-non-techy__t__r1"
+    outcome = json.loads((rd / "outcome.json").read_text())
+    (rd / "outcome.json").write_text(json.dumps({**outcome, "reason": "Hindi ko makita"}))
+    (out / "translations.json").write_text(json.dumps({"older-non-techy__t__r1": {"0": "hm"}, "_quotes": {}}))
+    calls = []
+
+    async def fake(study_, role, system, prompt, schema, **kw):
+        calls.append(prompt)
+        return {"lines": [{"k": "r#older-non-techy__t__r1", "en": "I can't find it"}]}
+
+    monkeypatch.setattr(translate.agents, "ask_json", fake)
+    got = asyncio.run(translate.translate(study, out))  # a cache from before reasons were translated
+    assert got["_reasons"] == {"older-non-techy__t__r1": "I can't find it"} and got["older-non-techy__t__r1"] == {"0": "hm"}
+    assert "Hindi ko makita" in calls[0] and '"hm"' not in calls[0]  # only the missing reason is sent
+    sess = {s["id"]: s for s in report_app.gather(out)["tasks"][0]["sessions"]}
+    assert sess["older-non-techy__t__r1"]["reason"] == "Hindi ko makita"
+    assert sess["older-non-techy__t__r1"]["reasonEn"] == "I can't find it"

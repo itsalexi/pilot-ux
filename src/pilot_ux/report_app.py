@@ -120,6 +120,7 @@ def gather(out: Path, frame_width: int = 300, study=None) -> dict:
             sessions.append({
                 "id": rd.name, "persona": persona_id, "run": outcome.get("run") or int(rd.name.rsplit("r", 1)[-1]),
                 "status": _status(outcome, _load(rd / "verdict.json")), "reason": outcome.get("reason", ""),
+                "reasonEn": (tr.get("_reasons") or {}).get(rd.name, ""),
                 "seconds": outcome.get("seconds"), "contaminated": bool(outcome.get("contaminated")),
                 "frames": frames,
                 "feel": {k: v["pmf"] for k, v in (ssr.get("scores") or {}).items() if k in ("ease", "trust", "use_intent")},

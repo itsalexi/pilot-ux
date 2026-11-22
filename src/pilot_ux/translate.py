@@ -48,6 +48,17 @@ def _lines(out: Path) -> dict[str, str]:
     return lines
 
 
+def _reasons(out: Path) -> dict[str, str]:
+    """Why each session ended, in the tester's words: the report shows it as the session's last caption."""
+    reasons = {}
+    for rd in sorted((out / "runs").glob("*__*__r*")):
+        p = rd / "outcome.json"
+        reason = (json.loads(p.read_text()).get("reason") or "") if p.exists() else ""
+        if reason.strip():
+            reasons[f"r#{rd.name}"] = reason
+    return reasons
+
+
 async def translate(study: Study, out: Path, log=print) -> dict[str, dict[str, str]]:
     dest = out / "translations.json"
     got: dict[str, dict[str, str]] = json.loads(dest.read_text()) if dest.exists() else {}
@@ -56,6 +67,8 @@ async def translate(study: Study, out: Path, log=print) -> dict[str, dict[str, s
         lines.update(_lines(out))
     if "_quotes" not in got:
         lines.update(_quotes(out))
+    if "_reasons" not in got:
+        lines.update(_reasons(out))
     if not lines:
         return got
     keys = list(lines)
@@ -68,13 +81,15 @@ async def translate(study: Study, out: Path, log=print) -> dict[str, dict[str, s
         return res.get("lines", [])
 
     got.setdefault("_quotes", {})
+    got.setdefault("_reasons", {})
     added = 0
     for part in await asyncio.gather(*(batch(keys[i:i + BATCH]) for i in range(0, len(keys), BATCH))):
         for row in part:
             en = (row.get("en") or "").strip()
             k = row.get("k", "")
             if en and k in lines and en != lines[k].strip():
-                run, step = ("_quotes", k[2:]) if k.startswith("q#") else k.rsplit("#", 1)
+                run, step = (("_quotes", k[2:]) if k.startswith("q#") else ("_reasons", k[2:]) if k.startswith("r#")
+                             else k.rsplit("#", 1))
                 got.setdefault(run, {})[step] = en
                 added += 1
     dest.write_text(json.dumps(got, indent=1, ensure_ascii=False))
