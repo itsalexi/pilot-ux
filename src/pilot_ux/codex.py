@@ -92,6 +92,17 @@ def _home() -> tempfile.TemporaryDirectory:
     return h
 
 
+def stderr_summary(stderr: str, returncode: int | None) -> str:
+    """The line that says why the CLI failed. A Node launcher that cannot spawn the codex binary
+    dumps its whole argv (the tester prompt) after the error, so the tail is noise."""
+    for line in stderr.splitlines():
+        line = line.strip()
+        if line.startswith(("Error", "error:", "ERROR")):
+            return f"codex CLI failed: {line[:400]}"
+    tail = stderr.strip()[-800:]
+    return tail or f"codex exited with code {returncode}"
+
+
 async def run(cmd: list[str], timeout_s: float = 1800, raw_path: Path | None = None) -> ClaudeResult:
     with _home() as home:
         env = {**os.environ, "CODEX_HOME": home}
@@ -113,7 +124,7 @@ async def run(cmd: list[str], timeout_s: float = 1800, raw_path: Path | None = N
             Path(raw_path).write_text("".join(lines))
         r = parse_events(lines, proc.returncode)
         if not r.ok and not r.text:
-            r.text = (await proc.stderr.read()).decode(errors="replace")[-800:] or f"exit {proc.returncode}"
+            r.text = stderr_summary((await proc.stderr.read()).decode(errors="replace"), proc.returncode)
         return r
 
 

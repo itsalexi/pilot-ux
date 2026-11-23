@@ -1,12 +1,5 @@
 <p align="center">
-  <img src="assets/pilot-mark.svg" alt="Pilot" width="88">
-</p>
-
-<h1 align="center">Pilot</h1>
-
-<p align="center">
-  We created Pilot to test any UX like real first-time users,<br>
-  so that you can fix it with your coding agent before shipping.
+  <img src="assets/pilot-banner.png" alt="pilot. Test any UX like a first-time user. Fix it with your coding agent before you ship." width="100%">
 </p>
 
 <p align="center">
@@ -18,7 +11,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/pilot-report.gif" alt="Six first-time testers try to split a dinner bill in the Hati prototype. Three give up." width="100%">
+  <img src="assets/pilot-terminal.gif" alt="Claude Code runs Pilot on the Hati prototype: 18 of 54 sessions finish, the agent fixes the issues in fix-plan.md, and the retest finishes 49 of 54." width="100%">
 </p>
 
 Testers who have never seen your app try to do one thing in it. Each one sees only screenshots, thinks aloud, and gives up when they would. You watch every attempt side by side, then hand the fixes to your coding agent.
@@ -46,7 +39,11 @@ It tests a URL, a repo, linked HTML pages, design artboards or screenshots, an i
 
 ### `pilot.html`
 
-The report above. Every problem is ranked by how bad it is and how many testers hit it, with the exact screens and words behind it. One file, works offline, ready to send.
+<p align="center">
+  <img src="assets/pilot-report.gif" alt="Six first-time testers try to split a dinner bill in the Hati prototype. Three give up." width="100%">
+</p>
+
+The report. Every problem is ranked by how bad it is and how many testers hit it, with the exact screens and words behind it. One file, works offline, ready to send.
 
 ### `fix-plan.md`
 
